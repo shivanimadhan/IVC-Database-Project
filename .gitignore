@@ -1,0 +1,14 @@
+# Oracle wallet files
+Wallet*/  
+*.sso
+*.ora
+
+# Java build + IDE junk
+*.class
+*.jar
+*.log
+.vscode/
+.idea/
+bin/
+out/
+.DS_Store
