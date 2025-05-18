@@ -1,5 +1,5 @@
 # Oracle wallet files
-Wallet*/  
+wallet*/  
 *.sso
 *.ora
 *.zip
@@ -13,3 +13,6 @@ Wallet*/
 bin/
 out/
 .DS_Store
+
+# Connection
+src/utils/DBConnection.java
