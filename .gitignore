@@ -2,8 +2,9 @@
 Wallet*/  
 *.sso
 *.ora
+*.zip
 
-# Java build + IDE junk
+# Java
 *.class
 *.jar
 *.log
