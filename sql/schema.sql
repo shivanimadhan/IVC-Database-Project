@@ -1,6 +1,5 @@
 DROP TABLE CAN_TAKE CASCADE CONSTRAINTS;
 DROP TABLE MUST_TAKE CASCADE CONSTRAINTS;
-DROP TABLE PRECEDES CASCADE CONSTRAINTS;
 DROP TABLE PREREQS CASCADE CONSTRAINTS;
 DROP TABLE ELECTIVES CASCADE CONSTRAINTS;
 DROP TABLE MANDATORY CASCADE CONSTRAINTS;
@@ -8,104 +7,96 @@ DROP TABLE TOOK CASCADE CONSTRAINTS;
 DROP TABLE TAKES CASCADE CONSTRAINTS;
 DROP TABLE STUDIES CASCADE CONSTRAINTS;
 DROP TABLE MAJORS CASCADE CONSTRAINTS;
+DROP TABLE OFFERINGS CASCADE CONSTRAINTS;
 DROP TABLE COURSES CASCADE CONSTRAINTS;
 DROP TABLE STUDENTS CASCADE CONSTRAINTS;
 
 CREATE TABLE STUDENTS (
-	perm INTEGER,
-	name CHAR(20),
-	address CHAR(50),
-	dept CHAR(20),
-	pin INTEGER, 
+	perm VARCHAR2(7),
+	name VARCHAR2(20),
+	address VARCHAR2(50),
+	dept VARCHAR2(20),
+	pin VARCHAR2(100), 
     PRIMARY KEY (perm));
 
 CREATE TABLE COURSES (
-    course_no CHAR(10),
+    course_no VARCHAR2(10),
+    title VARCHAR2(20),
+    PRIMARY KEY (course_no));
+
+CREATE TABLE OFFERINGS (
+    course_no VARCHAR2(10),
     enroll_code INTEGER,
-    title CHAR(20),
     year INTEGER,
-    quarter CHAR(10),
-    location CHAR(50),
-    time CHAR(20),
+    quarter VARCHAR2(10),
+    location VARCHAR2(50),
+    time VARCHAR2(20),
     capacity INTEGER,
-    professor CHAR(20),
-    PRIMARY KEY (course_no, enroll_code));
+    professor VARCHAR2(20),
+    PRIMARY KEY (enroll_code),
+    FOREIGN KEY (course_no) REFERENCES COURSES);
 
 CREATE TABLE MAJORS (
-    name CHAR(20),
-    dept CHAR(50),
+    major_id INTEGER,
+    name VARCHAR2(20),
+    dept VARCHAR2(50),
     num_electives INTEGER,
-    PRIMARY KEY (name, dept));
+    PRIMARY KEY (major_id));
 
 CREATE TABLE STUDIES (
-    perm INTEGER,
-    name CHAR(20),
-    dept CHAR(50),
+    perm VARCHAR2(7),
+    major_id INTEGER,
     num_electives INTEGER,
-    PRIMARY KEY (perm),
+    PRIMARY KEY (perm, major_id),
     FOREIGN KEY (perm) REFERENCES STUDENTS,
-    FOREIGN KEY (name, dept) REFERENCES MAJORS);
+    FOREIGN KEY (major_id) REFERENCES MAJORS);
 
 CREATE TABLE TAKES (
-    perm INTEGER,
-    course_no CHAR(10),
+    perm VARCHAR2(7),
     enroll_code INTEGER,
-    PRIMARY KEY (perm, course_no, enroll_code),
+    PRIMARY KEY (perm, enroll_code),
     FOREIGN KEY (perm) REFERENCES STUDENTS,
-    FOREIGN KEY (course_no, enroll_code) REFERENCES COURSES);
-
+    FOREIGN KEY (enroll_code) REFERENCES OFFERINGS);
 
 CREATE TABLE TOOK (
-    perm INTEGER,
-    course_no CHAR(10),
+    perm VARCHAR2(7),
     enroll_code INTEGER,
-    grade CHAR(2),
-    PRIMARY KEY (perm, course_no, enroll_code),
+    grade VARCHAR2(2),
+    PRIMARY KEY (perm, enroll_code),
     FOREIGN KEY (perm) REFERENCES STUDENTS,
-    FOREIGN KEY (course_no, enroll_code) REFERENCES COURSES);
-
+    FOREIGN KEY (enroll_code) REFERENCES OFFERINGS,
+    CHECK (grade IN ('A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F+', 'F', 'F-')));
 
 CREATE TABLE MANDATORY (
-    course_no CHAR(10),
-    enroll_code INTEGER,
-    PRIMARY KEY (course_no, enroll_code),
-    FOREIGN KEY (course_no, enroll_code) REFERENCES COURSES);
+    course_no VARCHAR2(10),
+    PRIMARY KEY (course_no),
+    FOREIGN KEY (course_no) REFERENCES COURSES);
 
 CREATE TABLE ELECTIVES (
-    course_no CHAR(10),
-    enroll_code INTEGER,
-    PRIMARY KEY (course_no, enroll_code),
-    FOREIGN KEY (course_no, enroll_code) REFERENCES COURSES);
+    course_no VARCHAR2(10),
+    PRIMARY KEY (course_no),
+    FOREIGN KEY (course_no) REFERENCES COURSES);
 
 CREATE TABLE PREREQS (
-    course_no CHAR(10),
-    enroll_code INTEGER,
-    PRIMARY KEY (course_no, enroll_code),
-    FOREIGN KEY (course_no, enroll_code) REFERENCES COURSES);
-
-CREATE TABLE PRECEDES (
-    course_no CHAR(10),
-    enroll_code INTEGER,
-    PRIMARY KEY (course_no, enroll_code),
-    FOREIGN KEY (course_no, enroll_code) REFERENCES COURSES);
+    course VARCHAR2(10),
+    prereq_course VARCHAR2(10),
+    PRIMARY KEY (course, prereq_course),
+    FOREIGN KEY (course) REFERENCES COURSES,
+    FOREIGN KEY (prereq_course) REFERENCES COURSES);
 
 CREATE TABLE MUST_TAKE (
-    name CHAR(20),
-    dept CHAR(50),
-    course_no CHAR(10),
-    enroll_code INTEGER,
-    PRIMARY KEY (course_no, enroll_code),
-    FOREIGN KEY (name, dept) REFERENCES MAJORS,
-    FOREIGN KEY (course_no, enroll_code) REFERENCES MANDATORY);
+    major_id INTEGER,
+    course_no VARCHAR2(10),
+    PRIMARY KEY (major_id, course_no),
+    FOREIGN KEY (major_id) REFERENCES MAJORS,
+    FOREIGN KEY (course_no) REFERENCES MANDATORY);
 
 CREATE TABLE CAN_TAKE (
-    name CHAR(20),
-    dept CHAR(50),
-    course_no CHAR(10),
-    enroll_code INTEGER,
-    PRIMARY KEY (course_no, enroll_code),
-    FOREIGN KEY (name, dept) REFERENCES MAJORS,
-    FOREIGN KEY (course_no, enroll_code) REFERENCES ELECTIVES);
+    major_id INTEGER,
+    course_no VARCHAR2(10),
+    PRIMARY KEY (major_id, course_no),
+    FOREIGN KEY (major_id) REFERENCES MAJORS,
+    FOREIGN KEY (course_no) REFERENCES ELECTIVES);
 
 
 
