@@ -19,11 +19,11 @@ public class CourseCategoryDAO {
         }
     }
 
-    public boolean isMandatory(String courseNo) throws SQLException {
-        // TODO: implement
-    }
+    // public boolean isMandatory(String courseNo) throws SQLException {
+    //     // TODO: implement
+    // }
 
-    public String getCategory(String courseNo) throws SQLException {
-        // TODO: implement
-    }
+    // public String getCategory(String courseNo) throws SQLException {
+    //     // TODO: implement
+    // }
 }

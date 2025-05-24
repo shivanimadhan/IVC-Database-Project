@@ -13,6 +13,7 @@ wallet*/
 bin/
 out/
 .DS_Store
+lib*/
 
 # Connection
 src/utils/DBConnection.java

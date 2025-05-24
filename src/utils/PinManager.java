@@ -12,7 +12,7 @@ public class PinManager {
             for (byte b : hashed) {
                 sb.append(String.format("%02x", b));
             }
-            return sb.toString(); // final hash
+            return sb.toString(); 
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
