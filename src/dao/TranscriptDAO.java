@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import models.*;
 
 public class TranscriptDAO {
     private final Connection conn;
@@ -12,31 +13,12 @@ public class TranscriptDAO {
         this.conn = conn;
     }
 
-    public static class Quarter {
-        String name;
-        int year;
-
-        public Quarter(String name, int year) {
-            this.name = name;
-            this.year = year;
-        }
-
-        public static Quarter previous(String current, int year) {
-            return switch (current) {
-                case "Spring" -> new Quarter("Winter", year);
-                case "Winter" -> new Quarter("Fall", year - 1);
-                case "Fall" -> new Quarter("Spring", year);
-                default -> throw new IllegalArgumentException("Unknown quarter: " + current);
-            };
-        }
-    }
-
-    public Quarter getPreviousQuarter(String perm) throws SQLException {
-        String sql = "SELECT O.quarter, O.year" +
-                            "FROM TAKES T" +
-                            "JOIN OFFERINGS O ON T.enroll_code = O.enroll_code" +
-                            "WHERE T.perm = ?" +
-                            "FETCH FIRST 1 ROWS ONLY";
+    public Quarter getCurrentQuarter(String perm) throws SQLException {
+        String sql = "SELECT O.quarter, O.year " +
+                    "FROM TAKES T " +
+                    "JOIN OFFERINGS O ON T.enroll_code = O.enroll_code " +
+                    "WHERE T.perm = ? " +
+                    "FETCH FIRST 1 ROWS ONLY";
 
         String currentQuarter = null;
         int currentYear = -1;
@@ -50,7 +32,13 @@ public class TranscriptDAO {
             }
         }
 
-        Quarter prev = Quarter.previous(currentQuarter, currentYear);
+        Quarter curr = new Quarter(currentQuarter, currentYear);
+        return curr;
+    }
+
+    public Quarter getPreviousQuarter(String perm) throws SQLException {
+        Quarter curr = getCurrentQuarter(perm);
+        Quarter prev = Quarter.previous(curr.getQuarterName(), curr.getYear());
         return prev;
     }
 
@@ -66,8 +54,8 @@ public class TranscriptDAO {
         List<String> grades = new ArrayList<>();
         try (var stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, perm);
-            stmt.setString(2, prev.name);
-            stmt.setInt(3, prev.year);
+            stmt.setString(2, prev.getQuarterName());
+            stmt.setInt(3, prev.getYear());
             var rs = stmt.executeQuery();
 
             while (rs.next()) {

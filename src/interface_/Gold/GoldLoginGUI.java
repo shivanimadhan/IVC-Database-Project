@@ -1,4 +1,4 @@
-package interface_;
+package interface_.Gold;
 
 import dao.StudentDAO;
 import java.awt.*;
@@ -7,18 +7,19 @@ import java.sql.Connection;
 import javax.swing.*;
 import utils.*;
 
-public class GoldHomeGUI extends JFrame {
+public class GoldLoginGUI extends JFrame {
+    private final Connection conn;
     private JTextField permField;
     private JPasswordField pinField;
     private JButton loginButton;
 
-    public GoldHomeGUI() {
-        setTitle("IVC GOLD Login");
+    public GoldLoginGUI(Connection conn) {
+        this.conn = conn;
 
+        setTitle("IVC GOLD Login");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setSize(screenSize);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         buildUI();
@@ -41,16 +42,15 @@ public class GoldHomeGUI extends JFrame {
         JLabel pinLabel = new JLabel("PIN:");
         pinField = new JPasswordField();
         JPanel pinRow = new JPanel();
+        pinRow.add(Box.createRigidArea(new Dimension(25, 0)));
         GUIStyleHelper.styleLabel(pinLabel);
         GUIStyleHelper.styleInputField(pinField);
-        pinRow.add(Box.createRigidArea(new Dimension(25, 0)));
         GUIStyleHelper.styleRow(pinRow, pinLabel, pinField);
 
         loginButton = new JButton("Login");
         GUIStyleHelper.styleLoginButton(loginButton);
         loginButton.addActionListener(this::handleLogin);
 
-        // spacing + structure
         panel.add(Box.createVerticalGlue());
         panel.add(title);
         panel.add(Box.createRigidArea(new Dimension(0, 30)));
@@ -68,33 +68,19 @@ public class GoldHomeGUI extends JFrame {
         String perm = permField.getText().trim();
         String pin = new String(pinField.getPassword()).trim();
 
-        try (Connection conn = DBConnection.getConnection()) {
+        try {
             StudentDAO studentDAO = new StudentDAO(conn);
             boolean success = studentDAO.verifyPin(perm, pin);
 
             if (success) {
-                JOptionPane.showMessageDialog(this, "Login Successful!");
-                // TODO: launch dashboard
+                new GoldHomeGUI(perm, conn).setVisible(true);
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Incorrect PERM or PIN.", "Login Failed", JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception ex) {
-            System.err.println("Database error: " + ex.getMessage());
+            ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage());
         }
-    }
-
-    public static void main(String[] args) {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception ignored) {}
-
-        SwingUtilities.invokeLater(() -> new GoldHomeGUI().setVisible(true));
     }
 }

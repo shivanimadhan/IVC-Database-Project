@@ -17,6 +17,21 @@ public class GUIStyleHelper {
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
 
+    public static void styleNavHeader(JLabel header) {
+        header.setFont(new Font("Serif", Font.BOLD, 26));
+        header.setForeground(new Color(20, 40, 80));
+    }
+
+    public static void styleLogoutPanel(JPanel panel) {
+        panel.setBackground(new Color(20, 40, 80));
+    }
+
+    public static void styleLogoutHeader(JLabel header) {
+        header.setFont(new Font("Serif", Font.BOLD, 26));
+        header.setBackground(new Color(20, 40, 80));
+        header.setForeground(new Color(0xfcba03));
+    }
+
     public static void styleLabel(JLabel label) {
         label.setFont(new Font("Serif", Font.BOLD, 20));
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -42,8 +57,43 @@ public class GUIStyleHelper {
         button.setBackground(new Color(0xfcba03)); 
         button.setForeground(new Color(20, 40, 80));
         button.setFocusPainted(false);
+        button.setBorderPainted(false); 
+        button.setContentAreaFilled(true);
+        button.setOpaque(true); 
         button.setFont(new Font("Serif", Font.BOLD, 20));
-        button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setPreferredSize(new Dimension(200, 50));
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+    }
+
+    public static void styleLogoutButton(JButton button) {
+        button.setForeground(new Color(0xfcba03)); 
+        button.setBackground(new Color(20, 40, 80));
+        button.setFocusPainted(false);
+        button.setBorderPainted(false); 
+        button.setContentAreaFilled(true);
+        button.setOpaque(true); 
+        button.setFont(new Font("Serif", Font.BOLD, 26));
+        button.setPreferredSize(new Dimension(215, 50));
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+    }
+
+    public static void styleNavButton(JButton button) {
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        button.setOpaque(true);
+        button.setBackground(new Color(0xfcba03));
+        button.setForeground(new Color(20, 40, 80));
+        button.setFont(new Font("Serif", Font.BOLD, 26));
+    }
+
+    public static void stylePages(JPanel panel) {
+        panel.setBackground(new Color(245, 250, 255)); 
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
+    }
+
+    public static void styleHomeFrame(JFrame frame) {
+        frame.getContentPane().setBackground(new Color(245, 250, 255));
     }
 }
