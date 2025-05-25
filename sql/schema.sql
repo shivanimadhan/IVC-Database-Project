@@ -21,7 +21,7 @@ CREATE TABLE STUDENTS (
 
 CREATE TABLE COURSES (
     course_no VARCHAR2(10),
-    title VARCHAR2(20),
+    title VARCHAR2(50),
     PRIMARY KEY (course_no));
 
 CREATE TABLE OFFERINGS (
@@ -29,10 +29,10 @@ CREATE TABLE OFFERINGS (
     enroll_code INTEGER,
     year INTEGER,
     quarter VARCHAR2(10),
-    location VARCHAR2(50),
-    time VARCHAR2(20),
-    capacity INTEGER,
     professor VARCHAR2(20),
+    capacity INTEGER,
+    time VARCHAR2(20),
+    location VARCHAR2(50),
     PRIMARY KEY (enroll_code),
     FOREIGN KEY (course_no) REFERENCES COURSES);
 

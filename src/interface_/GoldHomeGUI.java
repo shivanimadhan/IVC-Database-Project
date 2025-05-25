@@ -5,59 +5,61 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import javax.swing.*;
-import utils.DBConnection;
+import utils.*;
 
-public class GoldLoginGUI extends JFrame {
+public class GoldHomeGUI extends JFrame {
     private JTextField permField;
     private JPasswordField pinField;
     private JButton loginButton;
 
-    public GoldLoginGUI() {
+    public GoldHomeGUI() {
         setTitle("IVC GOLD Login");
-        setSize(750, 600);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setSize(screenSize);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         buildUI();
     }
 
     private void buildUI() {
-        // outer panel
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
-        panel.setBackground(new Color(245, 250, 255)); // soft light blue
+        GUIStyleHelper.styleMainPanel(panel);
 
-        JLabel title = new JLabel("Welcome to Gold");
-        title.setFont(new Font("Serif", Font.BOLD, 22));
-        title.setForeground(new Color(20, 40, 80));
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel title = new JLabel("Welcome to IVC Gold!");
+        GUIStyleHelper.styleTitle(title);
 
         JLabel permLabel = new JLabel("PERM:");
         permField = new JTextField();
-        permField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        JPanel permRow = new JPanel();
+        GUIStyleHelper.styleLabel(permLabel);
+        GUIStyleHelper.styleInputField(permField);
+        GUIStyleHelper.styleRow(permRow, permLabel, permField);
 
         JLabel pinLabel = new JLabel("PIN:");
         pinField = new JPasswordField();
-        pinField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+        JPanel pinRow = new JPanel();
+        GUIStyleHelper.styleLabel(pinLabel);
+        GUIStyleHelper.styleInputField(pinField);
+        pinRow.add(Box.createRigidArea(new Dimension(25, 0)));
+        GUIStyleHelper.styleRow(pinRow, pinLabel, pinField);
 
         loginButton = new JButton("Login");
-        loginButton.setBackground(new Color(0xfcba03)); 
-        loginButton.setForeground(new Color(20, 40, 80));
-        loginButton.setFocusPainted(false);
-        loginButton.setFont(new Font("Serif", Font.BOLD, 14));
-        loginButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        GUIStyleHelper.styleLoginButton(loginButton);
         loginButton.addActionListener(this::handleLogin);
 
-        // spacing helpers
+        // spacing + structure
+        panel.add(Box.createVerticalGlue());
         panel.add(title);
+        panel.add(Box.createRigidArea(new Dimension(0, 30)));
+        panel.add(permRow);
         panel.add(Box.createRigidArea(new Dimension(0, 20)));
-        panel.add(permLabel);
-        panel.add(permField);
-        panel.add(Box.createRigidArea(new Dimension(0, 10)));
-        panel.add(pinLabel);
-        panel.add(pinField);
-        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(pinRow);
+        panel.add(Box.createRigidArea(new Dimension(0, 30)));
         panel.add(loginButton);
+        panel.add(Box.createVerticalGlue());
 
         add(panel);
     }
@@ -71,7 +73,7 @@ public class GoldLoginGUI extends JFrame {
             boolean success = studentDAO.verifyPin(perm, pin);
 
             if (success) {
-                JOptionPane.showMessageDialog(this, "Login successful!");
+                JOptionPane.showMessageDialog(this, "Login Successful!");
                 // TODO: launch dashboard
                 dispose();
             } else {
@@ -93,6 +95,6 @@ public class GoldLoginGUI extends JFrame {
             }
         } catch (Exception ignored) {}
 
-        SwingUtilities.invokeLater(() -> new GoldLoginGUI().setVisible(true));
+        SwingUtilities.invokeLater(() -> new GoldHomeGUI().setVisible(true));
     }
 }
