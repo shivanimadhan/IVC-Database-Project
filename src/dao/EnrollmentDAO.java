@@ -42,19 +42,25 @@ public class EnrollmentDAO {
         }
     }
 
-    public List<String> getCurrentCourses(String perm) throws SQLException {
-        String sql = "SELECT C.course_no || ' - ' || C.title AS course" +
-                     "FROM TAKES T" +
-                     "JOIN OFFERINGS O ON T.enroll_code = O.enroll_code" +
-                     "JOIN COURSES C ON O.course_no = C.course_no" + 
-                     "WHERE T.perm = ?";
+    public List<String[]> getCurrentCourses(String perm) throws SQLException {
+        String sql = "SELECT C.course_no, C.title, O.professor, O.time, O.location " +
+                    "FROM TAKES T " +
+                    "JOIN OFFERINGS O ON T.enroll_code = O.enroll_code " +
+                    "JOIN COURSES C ON O.course_no = C.course_no " +
+                    "WHERE T.perm = ?";
 
-        List<String> courses = new ArrayList<>();
+        List<String[]> courses = new ArrayList<>();
         try (var stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, perm);
             var rs = stmt.executeQuery();
             while (rs.next()) {
-                courses.add(rs.getString("course"));
+                courses.add(new String[] {
+                    rs.getString("course_no"),
+                    rs.getString("title"),
+                    rs.getString("professor"),
+                    rs.getString("time"),
+                    rs.getString("location")
+                });
             }
         }
         return courses;

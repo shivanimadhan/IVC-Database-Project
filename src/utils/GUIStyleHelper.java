@@ -2,6 +2,9 @@ package utils;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.border.EmptyBorder;
 
 public class GUIStyleHelper {
 
@@ -18,7 +21,7 @@ public class GUIStyleHelper {
     }
 
     public static void styleNavHeader(JLabel header) {
-        header.setFont(new Font("Serif", Font.BOLD, 26));
+        header.setFont(new Font("Serif", Font.BOLD, 20));
         header.setForeground(new Color(20, 40, 80));
     }
 
@@ -95,5 +98,25 @@ public class GUIStyleHelper {
 
     public static void styleHomeFrame(JFrame frame) {
         frame.getContentPane().setBackground(new Color(245, 250, 255));
+    }
+
+    public static void styleTable(JTable table) {
+        table.setFillsViewportHeight(true);
+        table.setRowHeight(130);
+        table.setFont(new Font("Serif", Font.PLAIN, 18));
+        table.setForeground(new Color(20, 40, 80));
+        table.setBackground(Color.WHITE);
+        table.setGridColor(new Color(220, 220, 220)); // soft row separator
+        table.setShowGrid(true);
+        table.setIntercellSpacing(new Dimension(0, 20));
+        table.setPreferredSize(new Dimension(1100, table.getRowHeight() * (table.getRowCount())));
+        table.setBorder(BorderFactory.createLineBorder(new Color(20, 40, 80), 2));
+
+        // header styling
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(0xfcba03));
+        header.setForeground(new Color(20, 40, 80));
+        header.setFont(new Font("SansSerif", Font.BOLD, 18));
+        header.setPreferredSize(new Dimension(100, 40));
     }
 }
