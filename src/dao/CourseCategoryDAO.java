@@ -19,11 +19,23 @@ public class CourseCategoryDAO {
         }
     }
 
-    // public boolean isMandatory(String courseNo) throws SQLException {
-    //     // TODO: implement
-    // }
+    public boolean isMandatory(String courseNo) throws SQLException {
+        String sql = "SELECT 1 FROM MANDATORY WHERE course_no = ?";
+        try (var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, courseNo);
+            var rs = stmt.executeQuery();
+            return rs.next();  
+        }
+    }
 
-    // public String getCategory(String courseNo) throws SQLException {
-    //     // TODO: implement
-    // }
+
+    public String getCategory(String courseNo) throws SQLException {
+        if (isElective(courseNo)) {
+            return "Elective";
+        } else if (isMandatory(courseNo)) {
+            return "Mandatory";
+        } else {
+            return "Unknown";
+        }
+    }
 }
