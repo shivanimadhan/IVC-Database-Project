@@ -68,9 +68,9 @@ public class CourseDAO {
 
     public String getCourseInfo(String courseNo) throws SQLException {
         String title = getCourseTitle(courseNo);
-        List<String> offerings = getCourseOfferings(courseNo);
+        List<String[]> offerings = getCourseOfferings(courseNo);
         StringBuilder sb = new StringBuilder("Course: " + courseNo + " - " + title + "\n");
-        for (String offer : offerings) {
+        for (String[] offer : offerings) {
             sb.append("  ").append(offer).append("\n");
         }
         return sb.toString();
