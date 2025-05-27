@@ -2,6 +2,8 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CourseDAO {
     private final Connection conn;
@@ -22,19 +24,81 @@ public class CourseDAO {
         return "(Unknown)";
     }
 
-    // public List<String> getAllCourses() throws SQLException {
-    //     // TODO: implement
-    // }
+    public List<String> getAllCourses() throws SQLException {
+        String sql = "SELECT course_no, title FROM COURSES";
+        List<String> courses = new ArrayList<>();
+        try (var stmt = conn.prepareStatement(sql)) {
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                String course = rs.getString("course_no") + " - " + rs.getString("title");
+                courses.add(course);
+            }
+        }
+        return courses;
+    }
+    
 
-    // public String getCourseByEnrollCode(int enrollCode) throws SQLException {
-    //     // TODO: implement
-    // }
+    public String getCourseByEnrollCode(int enrollCode) throws SQLException {
+        String sql = """
+            SELECT o.course_no, o.enroll_code, o.year, o.quarter, o.location, o.time, o.capacity, o.professor, c.title
+            FROM OFFERINGS o
+            JOIN COURSES c ON o.course_no = c.course_no
+            WHERE o.enroll_code = ?
+            """;
+        try (var stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, enrollCode);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                return String.format(
+                    "%s %d %d %s %s %s %d %s",
+                    rs.getString("course_no"),
+                    rs.getInt("enroll_code"),
+                    rs.getInt("year"),
+                    rs.getString("quarter"),
+                    rs.getString("time"),
+                    rs.getString("location"),
+                    rs.getInt("capacity"),
+                    rs.getString("professor")
+                );
+            }
+        }
+        return "(Unknown offering)";
+    }
 
-    // public String getCourseInfo(String courseNo) throws SQLException {
-    //     // TODO: implement
-    // }
 
-    // public List<String> getCourseOfferings(String courseNo) throws SQLException {
-    //     // TODO: implement
-    // }
+    public String getCourseInfo(String courseNo) throws SQLException {
+        String title = getCourseTitle(courseNo);
+        List<String> offerings = getCourseOfferings(courseNo);
+        StringBuilder sb = new StringBuilder("Course: " + courseNo + " - " + title + "\n");
+        for (String offer : offerings) {
+            sb.append("  ").append(offer).append("\n");
+        }
+        return sb.toString();
+    }
+
+    public List<String> getCourseOfferings(String courseNo) throws SQLException {
+        String sql = """
+            SELECT enroll_code, year, quarter, location, time, capacity, professor
+            FROM OFFERINGS
+            WHERE course_no = ?
+            """;
+        List<String> offerings = new ArrayList<>();
+        try (var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, courseNo);
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                offerings.add(String.format(
+                "%d %d %s %s %s %d %s",
+                rs.getInt("enroll_code"),
+                rs.getInt("year"),
+                rs.getString("quarter"),
+                rs.getString("time"),
+                rs.getString("location"),
+                rs.getInt("capacity"),
+                rs.getString("professor")
+            ));
+            }
+        }
+        return offerings;
+    }
 }
