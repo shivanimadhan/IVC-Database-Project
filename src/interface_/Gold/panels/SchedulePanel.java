@@ -159,6 +159,19 @@ class ButtonEditor extends DefaultCellEditor {
             String courseNo = courseDetails.get(table.getSelectedRow())[0];
             int enrollCode = Integer.parseInt(courseDetails.get(table.getSelectedRow())[5]);
 
+            if (courseDetails.size() == 1) {
+                JOptionPane.showMessageDialog(
+                    null,
+                    "You must remain enrolled in at least one course.",
+                    "Drop Not Allowed",
+                    JOptionPane.WARNING_MESSAGE
+                );
+                SwingUtilities.invokeLater(() -> table.clearSelection());
+                clicked = false;
+                return "Drop";
+            }
+
+
             int result = JOptionPane.showConfirmDialog(null,
                     "Are you sure you want to drop " + courseNo + "?",
                     "Confirm Drop",
@@ -176,6 +189,8 @@ class ButtonEditor extends DefaultCellEditor {
                     ex.printStackTrace();
                     JOptionPane.showMessageDialog(button, "Failed to drop course.");
                 }
+            } else {
+                SwingUtilities.invokeLater(() -> table.clearSelection());
             }
         }
         clicked = false;
