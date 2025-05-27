@@ -38,7 +38,7 @@ public class CourseDAO {
     }
     
 
-    public String getCourseByEnrollCode(int enrollCode) throws SQLException {
+    public String[] getCourseByEnrollCode(int enrollCode) throws SQLException {
         String sql = """
             SELECT o.course_no, o.enroll_code, o.year, o.quarter, o.location, o.time, o.capacity, o.professor, c.title
             FROM OFFERINGS o
@@ -49,20 +49,20 @@ public class CourseDAO {
             stmt.setInt(1, enrollCode);
             var rs = stmt.executeQuery();
             if (rs.next()) {
-                return String.format(
-                    "%s %d %d %s %s %s %d %s",
+                return new String[] {
                     rs.getString("course_no"),
-                    rs.getInt("enroll_code"),
-                    rs.getInt("year"),
+                    Integer.toString(rs.getInt("enroll_code")),
+                    Integer.toString(rs.getInt("year")),
                     rs.getString("quarter"),
                     rs.getString("time"),
                     rs.getString("location"),
-                    rs.getInt("capacity"),
-                    rs.getString("professor")
-                );
+                    Integer.toString(rs.getInt("capacity")),
+                    rs.getString("professor"),
+                    rs.getString("title")
+                };
             }
         }
-        return "(Unknown offering)";
+        return null;
     }
 
 
@@ -76,27 +76,26 @@ public class CourseDAO {
         return sb.toString();
     }
 
-    public List<String> getCourseOfferings(String courseNo) throws SQLException {
+    public List<String[]> getCourseOfferings(String courseNo) throws SQLException {
         String sql = """
             SELECT enroll_code, year, quarter, location, time, capacity, professor
             FROM OFFERINGS
             WHERE course_no = ?
             """;
-        List<String> offerings = new ArrayList<>();
+        List<String[]> offerings = new ArrayList<>();
         try (var stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, courseNo);
             var rs = stmt.executeQuery();
             while (rs.next()) {
-                offerings.add(String.format(
-                "%d %d %s %s %s %d %s",
-                rs.getInt("enroll_code"),
-                rs.getInt("year"),
-                rs.getString("quarter"),
-                rs.getString("time"),
-                rs.getString("location"),
-                rs.getInt("capacity"),
-                rs.getString("professor")
-            ));
+                offerings.add(new String[] {
+                    Integer.toString(rs.getInt("enroll_code")),
+                    Integer.toString(rs.getInt("year")),
+                    rs.getString("quarter"),
+                    rs.getString("time"),
+                    rs.getString("location"),
+                    Integer.toString(rs.getInt("capacity")),
+                    rs.getString("professor")
+                });
             }
         }
         return offerings;
