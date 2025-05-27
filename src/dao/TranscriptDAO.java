@@ -16,7 +16,7 @@ public class TranscriptDAO {
     public Quarter getCurrentQuarter(String perm) throws SQLException {
         String sql = "SELECT O.quarter, O.year " +
                     "FROM TAKES T " +
-                    "JOIN OFFERINGS O ON T.enroll_code = O.enroll_code " +
+                    "JOIN OFFERINGS O ON T.course_no = O.course_no AND T.year = O.year AND T.quarter = O.quarter " +
                     "WHERE T.perm = ? " +
                     "FETCH FIRST 1 ROWS ONLY";
 
@@ -47,7 +47,7 @@ public class TranscriptDAO {
 
         String sql = "SELECT C.course_no, C.title, T.grade " +
                      "FROM TOOK T " +
-                     "JOIN OFFERINGS O ON T.enroll_code = O.enroll_code " +
+                     "JOIN OFFERINGS O ON T.course_no = O.course_no AND T.year = O.year AND T.quarter = O.quarter " +
                      "JOIN COURSES C ON O.course_no = C.course_no " +
                      "WHERE T.perm = ? AND O.quarter = ? AND O.year = ?";
 
@@ -72,7 +72,7 @@ public class TranscriptDAO {
     public List<String> getAllTranscriptRecords(String perm) throws SQLException {
         String sql = "SELECT O.quarter, O.year, C.course_no, C.title, T.grade " +
                      "FROM TOOK T " +
-                     "JOIN OFFERINGS O ON T.enroll_code = O.enroll_code " +
+                     "JOIN OFFERINGS O ON T.course_no = O.course_no AND T.year = O.year AND T.quarter = O.quarter " +
                      "JOIN COURSES C ON O.course_no = C.course_no " +
                      "WHERE T.perm = ? " +
                      "ORDER BY O.year, " +

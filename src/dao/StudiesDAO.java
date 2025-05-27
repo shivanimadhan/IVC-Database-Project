@@ -13,7 +13,7 @@ public class StudiesDAO {
     }
 
     public int getNumElectivesTaken(String perm) throws SQLException {
-        String sql = "SELECT enroll_code FROM TOOK WHERE perm = ?";
+        String sql = "SELECT course_no FROM TOOK WHERE perm = ?";
         int count = 0;
 
         try (var stmt = conn.prepareStatement(sql)) {
@@ -22,18 +22,10 @@ public class StudiesDAO {
             CourseCategoryDAO categoryDAO = new CourseCategoryDAO(conn);
 
             while (rs.next()) {
-                int enrollCode = rs.getInt("enroll_code");
-
-                String subSql = "SELECT course_no FROM OFFERINGS WHERE enroll_code = ?";
-                try (var subStmt = conn.prepareStatement(subSql)) {
-                    subStmt.setInt(1, enrollCode);
-                    var subRs = subStmt.executeQuery();
-                    if (subRs.next()) {
-                        String courseNo = subRs.getString("course_no");
-                        if (categoryDAO.isElective(courseNo)) {
-                            count++;
-                        }
-                    }
+                String courseNo = rs.getString("course_no");
+                
+                if (categoryDAO.isElective(courseNo)) {
+                    count++;
                 }
             }
         }
@@ -69,11 +61,21 @@ public class StudiesDAO {
         return result;
     }
 
+    public int getStudentAddress(String perm) throws SQLException {
+        String sql = "SELECT address FROM STUDENTS WHERE perm = ?";
+        try (var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, perm);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("address");
+            } else {
+                throw new SQLException("No address found for student " + perm);
+            }
+        }
+    }
+
     private List<String> getCompletedCourses(String perm) throws SQLException {
-        String sql = "SELECT O.course_no " +
-                    "FROM TOOK T " +
-                    "JOIN OFFERINGS O ON T.enroll_code = O.enroll_code " +
-                    "WHERE T.perm = ?";
+        String sql = "SELECT course_no FROM TOOK WHERE perm = ?";
 
         List<String> result = new ArrayList<>();
         try (var stmt = conn.prepareStatement(sql)) {

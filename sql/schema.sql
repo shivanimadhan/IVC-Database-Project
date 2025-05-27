@@ -21,19 +21,20 @@ CREATE TABLE STUDENTS (
 
 CREATE TABLE COURSES (
     course_no VARCHAR2(10),
+    enroll_code INTEGER,
     title VARCHAR2(50),
-    PRIMARY KEY (course_no));
+    PRIMARY KEY (course_no),
+    UNIQUE (enroll_code));
 
 CREATE TABLE OFFERINGS (
     course_no VARCHAR2(10),
-    enroll_code INTEGER,
     year INTEGER,
     quarter VARCHAR2(10),
     professor VARCHAR2(20),
     capacity INTEGER,
     time VARCHAR2(20),
     location VARCHAR2(50),
-    PRIMARY KEY (enroll_code),
+    PRIMARY KEY (course_no, year, quarter),
     FOREIGN KEY (course_no) REFERENCES COURSES);
 
 CREATE TABLE MAJORS (
@@ -53,18 +54,22 @@ CREATE TABLE STUDIES (
 
 CREATE TABLE TAKES (
     perm VARCHAR2(7),
-    enroll_code INTEGER,
-    PRIMARY KEY (perm, enroll_code),
+    course_no VARCHAR2(10),
+    year INTEGER,
+    quarter VARCHAR2(10),
+    PRIMARY KEY (perm, course_no, year, quarter),
     FOREIGN KEY (perm) REFERENCES STUDENTS,
-    FOREIGN KEY (enroll_code) REFERENCES OFFERINGS);
+    FOREIGN KEY (course_no, year, quarter) REFERENCES OFFERINGS);
 
 CREATE TABLE TOOK (
     perm VARCHAR2(7),
-    enroll_code INTEGER,
+    course_no VARCHAR2(10),
+    year INTEGER,
+    quarter VARCHAR2(10),
     grade VARCHAR2(2),
-    PRIMARY KEY (perm, enroll_code),
+    PRIMARY KEY (perm, course_no, year, quarter),
     FOREIGN KEY (perm) REFERENCES STUDENTS,
-    FOREIGN KEY (enroll_code) REFERENCES OFFERINGS,
+    FOREIGN KEY (course_no, year, quarter) REFERENCES OFFERINGS,
     CHECK (grade IN ('A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F+', 'F', 'F-')));
 
 CREATE TABLE MANDATORY (

@@ -129,4 +129,14 @@ public class GUIStyleHelper {
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createLineBorder(new Color(20, 40, 80)));
     }
+
+    public static void stylePinButton(JButton button) {
+        button.setPreferredSize(new Dimension(125, 40));
+        button.setFont(new Font("Serif", Font.BOLD, 20));
+        button.setBackground(new Color(0xfcba03));
+        button.setForeground(new Color(20, 40, 80));
+        button.setBorder(BorderFactory.createLineBorder(new Color(20, 40, 80)));
+        button.setContentAreaFilled(true);
+        button.setOpaque(true);
+    }
 }

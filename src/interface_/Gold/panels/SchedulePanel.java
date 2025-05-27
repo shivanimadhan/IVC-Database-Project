@@ -67,9 +67,9 @@ public class SchedulePanel extends JPanel {
             for (int i = 0; i < courseDetails.size(); i++) {
                 String[] course = courseDetails.get(i);
                 String formatted = "<html><b><span style='font-size:24pt'>&nbsp;&nbsp;&nbsp;" + course[0] + " — " + course[1] + "</span></b><br>" +
-                                    "&emsp;Professor " + course[2] + "<br>" +
-                                    "&emsp;" + course[3] + "<br>" +
-                                    "&emsp;" + course[4] + "</html>";
+                                    "&emsp;Professor " + course[4] + "<br>" +
+                                    "&emsp;" + course[5] + "<br>" +
+                                    "&emsp;" + course[6] + "</html>";
                 model.addRow(new Object[]{formatted, "Drop"});
             }
 
@@ -157,7 +157,8 @@ class ButtonEditor extends DefaultCellEditor {
     public Object getCellEditorValue() {
         if (clicked) {
             String courseNo = courseDetails.get(table.getSelectedRow())[0];
-            int enrollCode = Integer.parseInt(courseDetails.get(table.getSelectedRow())[5]);
+            int year = Integer.parseInt(courseDetails.get(table.getSelectedRow())[2]);
+            String quarter = courseDetails.get(table.getSelectedRow())[3];
 
             if (courseDetails.size() == 1) {
                 JOptionPane.showMessageDialog(
@@ -180,7 +181,7 @@ class ButtonEditor extends DefaultCellEditor {
 
             if (result == JOptionPane.YES_OPTION) {
                 try {
-                    dao.dropCourse(perm, enrollCode);
+                    dao.dropCourse(perm, courseNo, year, quarter);
                     JOptionPane.showMessageDialog(null, "Dropped " + courseNo);
 
                     SwingUtilities.getWindowAncestor(button).dispose(); 

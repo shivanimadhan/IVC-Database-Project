@@ -51,15 +51,55 @@ public class StudentDAO {
         }
     }
 
-    public String getStudentMajor(String perm) throws SQLException {
-        String sql = "SELECT major_id FROM Studies WHERE perm = ?";
+    public int getStudentMajor(String perm) throws SQLException {
+        String sql = "SELECT major_id FROM STUDIES WHERE perm = ?";
         try (var stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, perm);
             var rs = stmt.executeQuery();
             if (rs.next()) {
-                return rs.getString("major_id");
+                return rs.getInt("major_id");
+            } else {
+                throw new SQLException("No major found for student " + perm);
             }
         }
-        return null;
+    }
+
+    public String getStudentName(String perm) throws SQLException {
+        String sql = "SELECT name FROM STUDENTS WHERE perm = ?";
+        try (var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, perm);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("name");
+            } else {
+                throw new SQLException("No name found for student " + perm);
+            }
+        }
+    }
+
+    public String getStudentDept(String perm) throws SQLException {
+        String sql = "SELECT dept FROM STUDENTS WHERE perm = ?";
+        try (var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, perm);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("dept");
+            } else {
+                throw new SQLException("No department found for student " + perm);
+            }
+        }
+    }
+
+    public String getStudentAddress(String perm) throws SQLException {
+        String sql = "SELECT address FROM STUDENTS WHERE perm = ?";
+        try (var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, perm);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("address");
+            } else {
+                throw new SQLException("No address found for student " + perm);
+            }
+        }
     }
 }
