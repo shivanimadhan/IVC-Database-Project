@@ -111,6 +111,7 @@ public class GUIStyleHelper {
         table.setIntercellSpacing(new Dimension(0, 20));
         table.setPreferredSize(new Dimension(1100, table.getRowHeight() * (table.getRowCount())));
         table.setBorder(BorderFactory.createLineBorder(new Color(20, 40, 80), 2));
+        table.setShowVerticalLines(false);
 
         // header styling
         JTableHeader header = table.getTableHeader();
@@ -118,5 +119,14 @@ public class GUIStyleHelper {
         header.setForeground(new Color(20, 40, 80));
         header.setFont(new Font("SansSerif", Font.BOLD, 18));
         header.setPreferredSize(new Dimension(100, 40));
+    }
+
+    public static void styleSmallButton(JButton button) {
+        button.setPreferredSize(new Dimension(80, 30));
+        button.setFont(new Font("Serif", Font.BOLD, 18));
+        button.setBackground(new Color(0xfcba03));
+        button.setForeground(new Color(20, 40, 80));
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createLineBorder(new Color(20, 40, 80)));
     }
 }

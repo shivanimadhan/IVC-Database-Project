@@ -68,6 +68,10 @@ public class GoldLoginGUI extends JFrame {
         String perm = permField.getText().trim();
         String pin = new String(pinField.getPassword()).trim();
 
+        System.out.println("Entered PERM: '" + perm + "'");
+        System.out.println("Entered PIN: '" + pin + "'");
+        System.out.println("Hashed: " + PinManager.hashPin(pin));
+
         try {
             StudentDAO studentDAO = new StudentDAO(conn);
             boolean success = studentDAO.verifyPin(perm, pin);

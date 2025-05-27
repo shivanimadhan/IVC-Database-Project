@@ -29,11 +29,11 @@ public class TranscriptDAO {
             if (rs.next()) {
                 currentQuarter = rs.getString("quarter");
                 currentYear = rs.getInt("year");
+                return new Quarter(currentQuarter, currentYear);
             }
         }
 
-        Quarter curr = new Quarter(currentQuarter, currentYear);
-        return curr;
+        return new Quarter("Unknown", -1);
     }
 
     public Quarter getPreviousQuarter(String perm) throws SQLException {
@@ -45,10 +45,10 @@ public class TranscriptDAO {
     public List<String> getPreviousQuarterGrades(String perm) throws SQLException {
         Quarter prev = getPreviousQuarter(perm);
 
-        String sql = "SELECT C.course_no, C.title, T.grade" +
-                     "FROM TOOK T" +
-                     "JOIN OFFERINGS O ON T.enroll_code = O.enroll_code" +
-                     "JOIN COURSES C ON O.course_no = C.course_no" +
+        String sql = "SELECT C.course_no, C.title, T.grade " +
+                     "FROM TOOK T " +
+                     "JOIN OFFERINGS O ON T.enroll_code = O.enroll_code " +
+                     "JOIN COURSES C ON O.course_no = C.course_no " +
                      "WHERE T.perm = ? AND O.quarter = ? AND O.year = ?";
 
         List<String> grades = new ArrayList<>();
@@ -70,17 +70,17 @@ public class TranscriptDAO {
     }
 
     public List<String> getAllTranscriptRecords(String perm) throws SQLException {
-        String sql = "SELECT O.quarter, O.year, C.course_no, C.title, T.grade" +
-                     "FROM TOOK T" +
-                     "JOIN OFFERINGS O ON T.enroll_code = O.enroll_code" +
-                     "JOIN COURSES C ON O.course_no = C.course_no" +
-                     "WHERE T.perm = ?" +
-                     "ORDER BY O.year," +
-                            "CASE" + 
-                                    "WHEN O.quarter = 'Winter' THEN 1" +
-                                    "WHEN O.quarter = 'Spring' THEN 2" +
-                                    "WHEN O.quarter = 'Fall' THEN 3" +
-                                    "ELSE 4" +
+        String sql = "SELECT O.quarter, O.year, C.course_no, C.title, T.grade " +
+                     "FROM TOOK T " +
+                     "JOIN OFFERINGS O ON T.enroll_code = O.enroll_code " +
+                     "JOIN COURSES C ON O.course_no = C.course_no " +
+                     "WHERE T.perm = ? " +
+                     "ORDER BY O.year, " +
+                            "CASE " + 
+                                    "WHEN O.quarter = 'Winter' THEN 1 " +
+                                    "WHEN O.quarter = 'Spring' THEN 2 " +
+                                    "WHEN O.quarter = 'Fall' THEN 3 " +
+                                    "ELSE 4 " +
                             "END";
 
         List<String> transcript = new ArrayList<>();

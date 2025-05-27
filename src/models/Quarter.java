@@ -20,7 +20,7 @@ public class Quarter
     }
 
     public int getYear() {
-        return year;
+        return (year == -1) ? 25 : year;
     }
 
     public String getQuarterName() {
@@ -28,7 +28,7 @@ public class Quarter
             case "S" -> "Spring";
             case "F" -> "Fall";
             case "W" -> "Winter";
-            default -> "Unknown";
+            default -> "Spring";
         };
     }
 }

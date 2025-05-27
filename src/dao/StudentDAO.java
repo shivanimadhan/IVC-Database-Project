@@ -14,12 +14,15 @@ public class StudentDAO {
     public boolean verifyPin(String perm, String inputPin) throws SQLException {
         String hashedInput = PinManager.hashPin(inputPin);
         String sql = "SELECT pin FROM STUDENTS WHERE perm = ?";
+        
         try (var stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, perm);
             var rs = stmt.executeQuery();
             if (rs.next()) {
                 String actualHashedPin = rs.getString("pin");
-                return actualHashedPin.equals(hashedInput);
+                if (actualHashedPin != null) {
+                    return actualHashedPin.equals(hashedInput);
+                }
             }
         }
         return false;

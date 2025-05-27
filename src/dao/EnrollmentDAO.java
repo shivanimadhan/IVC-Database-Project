@@ -43,7 +43,7 @@ public class EnrollmentDAO {
     }
 
     public List<String[]> getCurrentCourses(String perm) throws SQLException {
-        String sql = "SELECT C.course_no, C.title, O.professor, O.time, O.location " +
+        String sql = "SELECT C.course_no, C.title, O.professor, O.time, O.location, O.enroll_code " +
                     "FROM TAKES T " +
                     "JOIN OFFERINGS O ON T.enroll_code = O.enroll_code " +
                     "JOIN COURSES C ON O.course_no = C.course_no " +
@@ -59,7 +59,8 @@ public class EnrollmentDAO {
                     rs.getString("title"),
                     rs.getString("professor"),
                     rs.getString("time"),
-                    rs.getString("location")
+                    rs.getString("location"),
+                    rs.getString("enroll_code")
                 });
             }
         }

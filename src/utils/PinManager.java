@@ -17,4 +17,10 @@ public class PinManager {
             throw new RuntimeException(e);
         }
     }
+
+    public static void main(String[] args) {
+        String pin = "14682";  // test whatever pin you want
+        String hashed = hashPin(pin);
+        System.out.println("Hashed pin: " + hashed);
+    }
 }
