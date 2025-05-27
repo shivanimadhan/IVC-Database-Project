@@ -44,115 +44,97 @@ INSERT INTO COURSES (course_no, title) VALUES ('EC152', 'Digital Design Principl
 INSERT INTO COURSES (course_no, title) VALUES ('CS010', 'Intro to Java Programming');
 INSERT INTO COURSES (course_no, title) VALUES ('EC010', 'Circuits and Systems');
 
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS174', 12345, 25, 'S', 'Venus', 5, 'TR10-12', 'Psycho 1132');
+INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS174', 12345, 25, 'S', 'Venus', 8, 'TR10-12', 'Psycho 1132');
 INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS170', 54321, 25, 'S', 'Jupiter', 8, 'MWF10-11', 'English 1124');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS160', 41725, 25, 'S', 'Mercury', 5, 'MWF2-3', 'Engr 1132');
+INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS160', 41725, 25, 'S', 'Mercury', 8, 'MWF2-3', 'Engr 1132');
 INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS026', 76543, 25, 'S', 'Mars', 5, 'MWF2-3', 'Bio 2222');
 INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('EC154', 93156, 25, 'S', 'Saturn', 7, 'T3-5', 'Maths 3333');
 INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('EC140', 19023, 25, 'S', 'Gold', 10, 'TR1-3', 'Chem 1234');
 INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('EC015', 71631, 25, 'S', 'Silver', 5, 'MW11-1', 'Engr 2116');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS170', 28292, 25, 'W', 'Copper', 18, 'MWF10-11', 'English 1124');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS160', 23132, 25, 'W', 'Iron', 15, 'MWF2-3', 'Engr 1132');
+INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS170', 54321, 25, 'W', 'Copper', 18, 'MWF10-11', 'English 1124');
+INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS160', 41725, 25, 'W', 'Iron', 15, 'MWF2-3', 'Engr 1132');
 INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS154', 32165, 25, 'W', 'Tin', 10, 'MF8-9', 'Engr 2116');
 INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS130', 56789, 25, 'W', 'Star', 15, 'TR2-4', 'Chem 1111');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS026', 32432, 25, 'W', 'Tin', 15, 'MWF2-3', 'Bio 2222');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('EC154', 23232, 25, 'W', 'Saturn', 18, 'T3-5', 'Maths 3333');
+INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS026', 76543, 25, 'W', 'Tin', 15, 'MWF2-3', 'Bio 2222');
+INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('EC154', 93156, 25, 'W', 'Saturn', 18, 'T3-5', 'Maths 3333');
 INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('EC152', 91823, 25, 'W', 'Gold', 10, 'MW11-1', 'Engr 3163');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS170', 13232, 24, 'F', 'Copper', 15, 'MWF10-11', 'English 1124');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS160', 23819, 24, 'F', 'Mercury', 10, 'MWF2-3', 'Engr 1132');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS154', 13231, 24, 'F', 'Mars', 10, 'MWF8-9', 'Engr 2116');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS130', 22122, 24, 'F', 'Jupiter', 15, 'TR2-4', 'Chem 1111');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS026', 27192, 24, 'F', 'Tin', 15, 'MWF2-3', 'Bio 2222');
+INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS170', 54321, 24, 'F', 'Copper', 15, 'MWF10-11', 'English 1124');
+INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS160', 41725, 24, 'F', 'Mercury', 10, 'MWF2-3', 'Engr 1132');
+INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS154', 32165, 24, 'F', 'Mars', 10, 'MWF8-9', 'Engr 2116');
+INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS130', 56789, 24, 'F', 'Jupiter', 15, 'TR2-4', 'Chem 1111');
+INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS026', 76543, 24, 'F', 'Tin', 15, 'MWF2-3', 'Bio 2222');
 INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS010', 81623, 24, 'F', 'Gold', 10, 'MWR3-4', 'Chem 3333');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('EC154', 13212, 24, 'F', 'Silver', 10, 'T3-5', 'Maths 3333');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('EC152', 17293, 24, 'F', 'Sun', 10, 'MW11-1', 'Engr 3163');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('EC015', 13123, 24, 'F', 'Moon', 15, 'TR2-4', 'Engr 1124');
+INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('EC154', 93156, 24, 'F', 'Silver', 10, 'T3-5', 'Maths 3333');
+INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('EC152', 91823, 24, 'F', 'Sun', 10, 'MW11-1', 'Engr 3163');
+INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('EC015', 71631, 24, 'F', 'Moon', 15, 'TR2-4', 'Engr 1124');
 INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('EC010', 82612, 24, 'F', 'Earth', 15, 'MWF8-9', 'Physics 4004');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS130', 37181, 24, 'S', 'Mercury', 15, 'TR2-4', 'Chem 1111');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS026', 13711, 24, 'S', 'Mars', 15, 'MWF2-3', 'Bio 2222');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('CS010', 23713, 24, 'S', 'Gold', 10, 'MWR3-4', 'Chem 3333');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('EC152', 12312, 24, 'S', 'Iron', 12, 'MW11-1', 'Engr 3163');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('EC015', 51281, 24, 'S', 'Moon', 15, 'TR2-4', 'Engr 1124');
-INSERT INTO OFFERINGS (course_no, enroll_code, year, quarter, professor, capacity, time, location) VALUES ('EC010', 19218, 24, 'S', 'Star', 15, 'MWF8-9', 'Physics 4004');
 
 -- Alfred Hitchcock (12345)
 INSERT INTO TAKES (perm, enroll_code) VALUES ('12345', 12345); -- CS174 (25 S)
 INSERT INTO TAKES (perm, enroll_code) VALUES ('12345', 41725); -- CS160 (25 S)
 INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('12345', 32165, 'A');   -- CS154 (25 W)
 INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('12345', 56789, 'B');   -- CS130 (25 W)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('12345', 23232, NULL);  -- EC154 (25 W)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('12345', 27192, 'A');   -- CS026 (24 F)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('12345', 93156, 'C');  -- EC154 (25 W)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('12345', 76543, 'A');   -- CS026 (24 F)
 INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('12345', 81623, 'A');   -- CS010 (24 F)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('12345', 12312, 'A');   -- EC152 (24 S)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('12345', 51281, 'A');   -- EC015 (24 S)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('12345', 19218, 'A');   -- EC010 (24 S)
 
--- Billy Clinton (14682)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('14682', 23132, 'B');   -- CS160 (25 W)
+-- Billy Clinton (14682
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('14682', 41725, 'B');   -- CS160 (25 W)
 INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('14682', 56789, 'B');   -- CS130 (25 W)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('14682', 27192, 'B');   -- CS026 (24 F)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('14682', 76543, 'B');   -- CS026 (24 F)
 INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('14682', 81623, 'A');   -- CS010 (24 F)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('14682', 12312, 'A');   -- EC152 (24 S)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('14682', 51281, 'A');   -- EC015 (24 S)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('14682', 19218, 'A');   -- EC010 (24 S)
 
 -- Cindy Laugher (37642)
 INSERT INTO TAKES (perm, enroll_code) VALUES ('37642', 93156);              -- EC154 (25 S)
 INSERT INTO TAKES (perm, enroll_code) VALUES ('37642', 41725);              -- CS160 (25 S)
 INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('37642', 91823, 'C');   -- EC152 (25 W)
 INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('37642', 56789, 'B');   -- CS130 (25 W)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('37642', 13123, 'B');   -- EC015 (24 F)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('37642', 71631, 'B');   -- EC015 (24 F)
 INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('37642', 82612, 'A');   -- EC010 (24 F)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('37642', 27192, 'A');   -- CS026 (24 S)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('37642', 81623, 'A');   -- CS010 (24 S)
 
 -- David Copperfill (85821)
 INSERT INTO TAKES (perm, enroll_code) VALUES ('85821', 12345);              -- CS174 (25 S)
 INSERT INTO TAKES (perm, enroll_code) VALUES ('85821', 41725);              -- CS160 (25 S)
 INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('85821', 56789, 'C');   -- CS130 (25 W)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('85821', 27192, 'A');   -- CS026 (25 W)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('85821', 76543, 'A');   -- CS026 (25 W)
 INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('85821', 81623, 'A');   -- CS010 (24 F)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('85821', 13123, 'B');   -- EC015 (24 F)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('85821', 71631, 'B');   -- EC015 (24 F)
 
 -- Elizabeth Sailor (38567)
 INSERT INTO TAKES (perm, enroll_code) VALUES ('38567', 12345);              -- CS174 (25 S)
 INSERT INTO TAKES (perm, enroll_code) VALUES ('38567', 54321);              -- CS170 (25 S)
 INSERT INTO TAKES (perm, enroll_code) VALUES ('38567', 41725);              -- CS160 (25 S)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('38567', 23232, 'C');   -- EC154 (25 W)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('38567', 93156, 'C');   -- EC154 (25 W)
 INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('38567', 56789, 'A');   -- CS130 (25 W)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('38567', 17293, 'B');   -- EC152 (24 F)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('38567', 13231, 'B');   -- CS154 (24 F)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('38567', 27192, 'A');   -- CS026 (24 S)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('38567', 81623, 'A');   -- CS010 (24 S)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('38567', 19218, 'B');   -- EC010 (24 S)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('38567', 91823, 'B');   -- EC152 (24 F)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('38567', 32165, 'B');   -- CS154 (24 F)
 
 -- Fatal Castro (81934)
 INSERT INTO TAKES (perm, enroll_code) VALUES ('81934', 93156);              -- EC154 (25 S)
 INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('81934', 32165, 'C');   -- CS154 (25 W)
 INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('81934', 56789, 'A');   -- CS130 (25 W)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('81934', 27192, 'A');   -- CS026 (24 F)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('81934', 17293, 'B');   -- EC152 (24 F)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('81934', 81623, 'A');   -- CS010 (24 S)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('81934', 76543, 'A');   -- CS026 (24 F)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('81934', 91823, 'B');   -- EC152 (24 F)
 
 -- George Brush (98246)
 INSERT INTO TAKES (perm, enroll_code) VALUES ('98246', 41725);              -- CS160 (25 S)
 INSERT INTO TAKES (perm, enroll_code) VALUES ('98246', 12345);              -- CS174 (25 S)
 INSERT INTO TAKES (perm, enroll_code) VALUES ('98246', 54321);              -- CS170 (25 S)
 INSERT INTO TAKES (perm, enroll_code) VALUES ('98246', 93156);              -- EC154 (25 S)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('98246', 13231, 'A');   -- CS154 (24 F)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('98246', 22122, 'B');   -- CS130 (24 F)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('98246', 27192, 'A');   -- CS026 (24 F)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('98246', 81623, 'B');   -- CS010 (24 S)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('98246', 91823, 'B');   -- EC152 (25 W)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('98246', 32165, 'A');   -- CS154 (24 F)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('98246', 56789, 'B');   -- CS130 (24 F)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('98246', 76543, 'A');   -- CS026 (24 F)
+
 
 -- Hurryson Ford (35328)
 INSERT INTO TAKES (perm, enroll_code) VALUES ('35328', 12345);              -- CS174 (25 S)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('35328', 22122, 'B');   -- CS130 (24 F)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('35328', 27192, 'A');   -- CS026 (24 F)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('35328', 81623, 'A');   -- CS010 (24 S)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('35328', 56789, 'B');   -- CS130 (24 F)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('35328', 76543, 'A');   -- CS026 (24 F)
 
 -- Ivan Lendme (84713)
 INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('84713', 76543, 'D');   -- CS026 (25 W)
-INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('84713', 13123, 'F');   -- EC015 (24 F)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('84713', 71631, 'F');   -- EC015 (24 F)
 INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('84713', 81623, 'C');   -- CS010 (24 F)
 
 -- Joe Pepsi (36912)
@@ -175,11 +157,13 @@ INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('53540', 56789, 'C');   -- C
 -- Olive Stoner (82452)
 INSERT INTO TAKES (perm, enroll_code) VALUES ('82452', 93156);              -- EC154 (25 S)
 INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('82452', 91823, 'C');   -- EC152 (25 W)
+INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('82452', 76543, 'C'); -- CS026 (25 W)
 
 -- Pit Wilson (18221)
 INSERT INTO TAKES (perm, enroll_code) VALUES ('18221', 12345);              -- CS174 (25 S)
 INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('18221', 56789, 'B');   -- CS130 (25 W)
 INSERT INTO TOOK (perm, enroll_code, grade) VALUES ('18221', 76543, 'B');   -- CS026 (25 W)
+
 
 INSERT INTO STUDIES (perm, major_id, num_electives) VALUES ('12345', 1, 5);
 INSERT INTO STUDIES (perm, major_id, num_electives) VALUES ('14682', 2, 5);
@@ -210,6 +194,8 @@ INSERT INTO ELECTIVES (course_no) VALUES ('EC015');
 INSERT INTO ELECTIVES (course_no) VALUES ('EC140');
 INSERT INTO ELECTIVES (course_no) VALUES ('EC152');
 INSERT INTO ELECTIVES (course_no) VALUES ('EC154');
+INSERT INTO ELECTIVES (course_no) VALUES ('CS174');
+
 
 INSERT INTO CAN_TAKE (major_id, course_no) VALUES (1, 'CS010');
 INSERT INTO CAN_TAKE (major_id, course_no) VALUES (1, 'EC010'); 
@@ -223,6 +209,9 @@ INSERT INTO CAN_TAKE (major_id, course_no) VALUES (2, 'EC015');
 INSERT INTO CAN_TAKE (major_id, course_no) VALUES (2, 'EC140');
 INSERT INTO CAN_TAKE (major_id, course_no) VALUES (2, 'EC152');
 INSERT INTO CAN_TAKE (major_id, course_no) VALUES (2, 'EC154');
+INSERT INTO CAN_TAKE (major_id, course_no) VALUES (1, 'CS174');
+INSERT INTO CAN_TAKE (major_id, course_no) VALUES (2, 'CS174');
+
 
 INSERT INTO MUST_TAKE (major_id, course_no) VALUES (1, 'CS026');
 INSERT INTO MUST_TAKE (major_id, course_no) VALUES (1, 'CS130');
@@ -236,6 +225,7 @@ INSERT INTO MUST_TAKE (major_id, course_no) VALUES (2, 'CS160');
 INSERT INTO MUST_TAKE (major_id, course_no) VALUES (2, 'CS170');
 
 INSERT INTO PREREQS (course, prereq_course) VALUES ('CS174', 'CS026');
+INSERT INTO PREREQS (course, prereq_course) VALUES ('CS174', 'CS130');
 INSERT INTO PREREQS (course, prereq_course) VALUES ('CS170', 'CS130');
 INSERT INTO PREREQS (course, prereq_course) VALUES ('CS170', 'CS154');
 INSERT INTO PREREQS (course, prereq_course) VALUES ('CS160', 'CS026');
