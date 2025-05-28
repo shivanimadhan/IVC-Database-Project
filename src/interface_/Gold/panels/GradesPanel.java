@@ -17,40 +17,47 @@ public class GradesPanel extends JPanel {
     private final JComboBox<Quarter> quarterDropdown;
     private final JTable gradesTable;
     private final DefaultTableModel tableModel;
-    private final JScrollPane scrollPane;
 
     public GradesPanel(String perm, Connection conn) {
         this.transcriptDAO = new TranscriptDAO(conn);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         GUIStyleHelper.stylePages(this);
 
-        // === DROPDOWN (TRUE LEFT-ALIGNED) ===
-        JPanel dropdownRow = new JPanel();
-        dropdownRow.setLayout(new BoxLayout(dropdownRow, BoxLayout.X_AXIS));
-        dropdownRow.setOpaque(false);
-        dropdownRow.setAlignmentX(Component.LEFT_ALIGNMENT);
-
+        // Dropdown Panel
+        JPanel dropdownPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        dropdownPanel.setOpaque(false);
         JLabel quarterLabel = new JLabel("Quarter:");
         GUIStyleHelper.styleLabel(quarterLabel);
 
         quarterDropdown = new JComboBox<>();
         quarterDropdown.setPreferredSize(new Dimension(150, 30));
-        quarterDropdown.setMaximumSize(new Dimension(150, 30));
+        dropdownPanel.add(Box.createRigidArea(new Dimension(60, 0)));
+        dropdownPanel.add(quarterLabel);
+        dropdownPanel.add(quarterDropdown);
 
-        dropdownRow.add(Box.createRigidArea(new Dimension(60, 0))); // left margin
-        dropdownRow.add(quarterLabel);
-        dropdownRow.add(Box.createRigidArea(new Dimension(10, 0))); // gap
-        dropdownRow.add(quarterDropdown);
+        add(Box.createRigidArea(new Dimension(0, 20)));
+        add(dropdownPanel);
 
-        // === TABLE ===
+        // Table setup
         String[] columnNames = {"Course No", "Course Title", "Grade"};
         tableModel = new DefaultTableModel(columnNames, 0) {
-            @Override public boolean isCellEditable(int row, int col) { return false; }
-        };
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // make all cells non-editable
+            }
 
+            @Override
+            public int getRowCount() {
+                // avoid NPE on init
+                return super.getRowCount() > 0 ? super.getRowCount() : 0;
+            }
+        };
         gradesTable = new JTable(tableModel);
         GUIStyleHelper.styleGradesTable(gradesTable);
+        gradesTable.getTableHeader().setReorderingAllowed(false);
+        gradesTable.getTableHeader().setResizingAllowed(false);
 
+        // Center align table cells
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         for (int i = 0; i < gradesTable.getColumnCount(); i++) {
@@ -58,32 +65,40 @@ public class GradesPanel extends JPanel {
         }
 
         JTableHeader header = gradesTable.getTableHeader();
-        ((DefaultTableCellRenderer) header.getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+        DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
+        headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
-        scrollPane = new JScrollPane(gradesTable);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        scrollPane.setAlignmentX(Component.CENTER_ALIGNMENT); // this one is centered and should be
+        JScrollPane scrollPane = new JScrollPane(gradesTable);
 
-        // === ADD COMPONENTS ===
-        add(Box.createRigidArea(new Dimension(0, 20)));
-        add(dropdownRow); // LEFT aligned now
-        add(Box.createRigidArea(new Dimension(0, 20)));
-        add(scrollPane);
+        JPanel tableWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        tableWrapper.setOpaque(false);
+        tableWrapper.add(scrollPane);
 
-        // === LOAD DATA ===
+        add(Box.createRigidArea(new Dimension(0, 10)));
+        add(tableWrapper);
+
+        // Populate dropdown and default table
         try {
             List<Quarter> quarters = transcriptDAO.getAllQuartersTaken(perm);
-            for (Quarter q : quarters) quarterDropdown.addItem(q);
+            for (Quarter q : quarters) {
+                quarterDropdown.addItem(q);
+            }
 
             if (!quarters.isEmpty()) {
                 Quarter first = quarters.get(0);
                 quarterDropdown.setSelectedItem(first);
                 populateTable(perm, first.getQuarterCode(), first.getYear());
+                // this.revalidate();
+                // this.repaint();
             }
 
             quarterDropdown.addActionListener(e -> {
                 Quarter selected = (Quarter) quarterDropdown.getSelectedItem();
-                if (selected != null) populateTable(perm, selected.getQuarterCode(), selected.getYear());
+                if (selected != null) {
+                    populateTable(perm, selected.getQuarterCode(), selected.getYear());
+                    this.revalidate();
+                    this.repaint();
+                }
             });
 
         } catch (SQLException ex) {
@@ -95,22 +110,21 @@ public class GradesPanel extends JPanel {
     private void populateTable(String perm, String quarter, int year) {
         try {
             List<String[]> grades = transcriptDAO.getGradesForQuarter(perm, year, quarter);
-            tableModel.setRowCount(0);
-            for (String[] row : grades) tableModel.addRow(row);
+            tableModel.setRowCount(0); // Clear table
+            for (String[] row : grades) {
+                tableModel.addRow(row);
+            }
 
             int rowHeight = gradesTable.getRowHeight();
             int rowCount = gradesTable.getRowCount();
-            int headerHeight = gradesTable.getTableHeader().getPreferredSize().height;
-            int totalHeight = rowHeight * rowCount + headerHeight;
+            int totalHeight = rowHeight * rowCount;
 
-            Dimension newSize = new Dimension(1000, totalHeight);
-            gradesTable.setPreferredScrollableViewportSize(newSize);
-            scrollPane.setPreferredSize(newSize);
-            scrollPane.setMaximumSize(newSize);
-            scrollPane.setMinimumSize(newSize);
+            gradesTable.setPreferredScrollableViewportSize(new Dimension(1000, totalHeight));
 
-            scrollPane.revalidate();
-            scrollPane.repaint();
+            gradesTable.revalidate();
+            gradesTable.repaint();
+            gradesTable.getParent().revalidate();  // JScrollPane viewport
+            gradesTable.getParent().repaint();
 
         } catch (SQLException e) {
             e.printStackTrace();
