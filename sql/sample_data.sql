@@ -31,18 +31,18 @@ INSERT INTO STUDENTS (perm, name, address, dept, pin) VALUES ('18221', 'Pit Wils
 INSERT INTO MAJORS (major_id, name, dept, num_electives) VALUES (1, 'Computer Science', 'CS', 5);
 INSERT INTO MAJORS (major_id, name, dept, num_electives) VALUES (2, 'Computer Engineering', 'ECE', 5);
 
-INSERT INTO COURSES (course_no, enroll_code, title) VALUES ('CS174', 12345, 'Databases');
-INSERT INTO COURSES (course_no, enroll_code, title) VALUES ('CS170', 54321, 'Operating Systems');
-INSERT INTO COURSES (course_no, enroll_code, title) VALUES ('CS160', 41725, 'Compilers');
-INSERT INTO COURSES (course_no, enroll_code, title) VALUES ('CS026', 76543, 'Intro to Computer Science II'); 
-INSERT INTO COURSES (course_no, enroll_code, title) VALUES ('EC154', 93156, 'Computer Architecture');
-INSERT INTO COURSES (course_no, enroll_code, title) VALUES ('EC140', 19023, 'Communication Electronics');
-INSERT INTO COURSES (course_no, enroll_code, title) VALUES ('EC015', 71631, 'Fundamentals of Logic Design');
-INSERT INTO COURSES (course_no, enroll_code, title) VALUES ('CS154', 32165, 'Computer Architecture');
-INSERT INTO COURSES (course_no, enroll_code, title) VALUES ('CS130', 56789, 'Data Structures and Algorithms'); 
-INSERT INTO COURSES (course_no, enroll_code, title) VALUES ('EC152', 91823, 'Digital Design Principles');
-INSERT INTO COURSES (course_no, enroll_code, title) VALUES ('CS010', 81623, 'Intro to Java Programming');
-INSERT INTO COURSES (course_no, enroll_code, title) VALUES ('EC010', 82612, 'Circuits and Systems');
+INSERT INTO COURSES (course_no, enroll_code, title, dept) VALUES ('CS174', 12345, 'Databases', 'CS');
+INSERT INTO COURSES (course_no, enroll_code, title, dept) VALUES ('CS170', 54321, 'Operating Systems', 'CS');
+INSERT INTO COURSES (course_no, enroll_code, title, dept) VALUES ('CS160', 41725, 'Compilers', 'CS');
+INSERT INTO COURSES (course_no, enroll_code, title, dept) VALUES ('CS026', 76543, 'Intro to Computer Science II', 'CS'); 
+INSERT INTO COURSES (course_no, enroll_code, title, dept) VALUES ('EC154', 93156, 'Computer Architecture', 'ECE');
+INSERT INTO COURSES (course_no, enroll_code, title, dept) VALUES ('EC140', 19023, 'Communication Electronics', 'ECE');
+INSERT INTO COURSES (course_no, enroll_code, title, dept) VALUES ('EC015', 71631, 'Fundamentals of Logic Design', 'ECE');
+INSERT INTO COURSES (course_no, enroll_code, title, dept) VALUES ('CS154', 32165, 'Computer Architecture', 'CS');
+INSERT INTO COURSES (course_no, enroll_code, title, dept) VALUES ('CS130', 56789, 'Data Structures and Algorithms', 'CS'); 
+INSERT INTO COURSES (course_no, enroll_code, title, dept) VALUES ('EC152', 91823, 'Digital Design Principles', 'ECE');
+INSERT INTO COURSES (course_no, enroll_code, title, dept) VALUES ('CS010', 81623, 'Intro to Java Programming', 'CS');
+INSERT INTO COURSES (course_no, enroll_code, title, dept) VALUES ('EC010', 82612, 'Circuits and Systems', 'ECE');
 
 INSERT INTO OFFERINGS (course_no, year, quarter, professor, capacity, time, location) VALUES ('CS026', 25, 'S', 'Mars', 5, 'MWF2-3', 'Bio 2222');
 INSERT INTO OFFERINGS (course_no, year, quarter, professor, capacity, time, location) VALUES ('CS174', 25, 'S', 'Venus', 8, 'TR10-12', 'Psycho 1132');

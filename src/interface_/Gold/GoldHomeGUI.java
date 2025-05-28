@@ -79,7 +79,7 @@ public class GoldHomeGUI extends JFrame {
         // content area
         contentPanel = new JPanel(new BorderLayout());
         pages.put("schedule", new SchedulePanel(perm, conn));
-        pages.put("register", new JLabelPanel("Registration Page"));
+        pages.put("register", new RegisterPanel(perm, conn));
         pages.put("grades", new GradesPanel(perm, conn));
         pages.put("progress", new JLabelPanel("Progress Page"));
         pages.put("settings", new SettingsPanel(perm, conn));

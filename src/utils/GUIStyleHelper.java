@@ -40,6 +40,11 @@ public class GUIStyleHelper {
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
 
+    public static void styleRegisterLabel(JLabel label) {
+        label.setFont(new Font("Serif", Font.BOLD, 24));
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+    }
+
     public static void styleInputField(JTextField field) {
         field.setPreferredSize(new Dimension(300, 40));
         field.setMaximumSize(field.getPreferredSize());
@@ -149,6 +154,8 @@ public class GUIStyleHelper {
         button.setForeground(new Color(20, 40, 80));
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createLineBorder(new Color(20, 40, 80)));
+        button.setContentAreaFilled(false);
+        button.setOpaque(true);
     }
 
     public static void stylePinButton(JButton button) {

@@ -25,6 +25,19 @@ public class MajorDAO {
         return majors;
     }
 
+    public List<String> getAllDepts() throws SQLException {
+        String sql = "SELECT dept FROM MAJORS";
+        List<String> depts = new ArrayList<>();
+        try (var stmt = conn.prepareStatement(sql)) {
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                String dept = rs.getString("dept");
+                depts.add(dept);
+            }
+        }
+        return depts;
+    }
+
     public List<String> getMustTakeCourses(int majorId) throws SQLException {
         String sql = "SELECT course_no FROM MUST_TAKE WHERE major_id = ?";
         List<String> mustTakeCourses = new ArrayList<>();

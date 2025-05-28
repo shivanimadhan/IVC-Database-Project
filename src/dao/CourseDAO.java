@@ -36,6 +36,36 @@ public class CourseDAO {
         }
         return courses;
     }
+
+    public List<String[]> getOfferedCoursesByDept(String dept, int year, String quarter) throws SQLException {
+        String sql = "SELECT C.course_no, C.title, O.year, O.quarter, O.professor, O.time, O.location " +
+                    "FROM OFFERINGS O " +
+                    "JOIN COURSES C ON O.course_no = C.course_no " +
+                    "WHERE C.dept = ? AND O.year = ? AND O.quarter = ?";
+
+        List<String[]> courses = new ArrayList<>();
+        try (var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, dept);
+            stmt.setInt(2, year);
+            stmt.setString(3, quarter);
+
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                courses.add(new String[] {
+                    rs.getString("course_no"),
+                    rs.getString("title"),
+                    String.valueOf(rs.getInt("year")),
+                    rs.getString("quarter"),
+                    rs.getString("professor"),
+                    rs.getString("time"),
+                    rs.getString("location")
+                });
+            }
+        }
+        return courses;
+    }
+
+
     
 
     public String[] getCourseByEnrollCode(int enrollCode) throws SQLException {
@@ -53,7 +83,52 @@ public class CourseDAO {
         return null;
     }
     
+    public int getCourseCapacity(String courseNo, int year, String quarter) throws SQLException {
+        String sql = "SELECT capacity FROM OFFERINGS WHERE course_no = ? AND year = ? AND quarter = ?";
+        try (var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, courseNo);
+            stmt.setInt(2, year);
+            stmt.setString(3, quarter);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("capacity");
+            } else {
+                throw new SQLException("Offering not found for " + courseNo + " (" + quarter + " " + year + ")");
+            }
+        }
+    }
 
+    public int getStudentCourseCount(String perm, int year, String quarter) throws SQLException {
+        String sql = "SELECT COUNT(*) AS course_count FROM TAKES " +
+                    "WHERE perm = ? AND year = ? AND quarter = ?";
+        try (var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, perm);
+            stmt.setInt(2, year);
+            stmt.setString(3, quarter);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("course_count");
+            } else {
+                return 0;
+            }
+        }
+    }
+
+    public int getCourseEnrollmentCount(String courseNo, int year, String quarter) throws SQLException {
+        String sql = "SELECT COUNT(*) AS enrollment_count FROM TAKES " +
+                    "WHERE course_no = ? AND year = ? AND quarter = ?";
+        try (var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, courseNo);
+            stmt.setInt(2, year);
+            stmt.setString(3, quarter);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("enrollment_count");
+            } else {
+                return 0;
+            }
+        }
+    }
 
     public String getCourseInfo(String courseNo) throws SQLException {
         String title = getCourseTitle(courseNo);

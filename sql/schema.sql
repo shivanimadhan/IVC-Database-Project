@@ -23,6 +23,7 @@ CREATE TABLE COURSES (
     course_no VARCHAR2(10),
     enroll_code INTEGER,
     title VARCHAR2(50),
+    dept VARCHAR2(20),
     PRIMARY KEY (course_no),
     UNIQUE (enroll_code));
 
@@ -35,7 +36,7 @@ CREATE TABLE OFFERINGS (
     time VARCHAR2(20),
     location VARCHAR2(50),
     PRIMARY KEY (course_no, year, quarter),
-    FOREIGN KEY (course_no) REFERENCES COURSES);
+    FOREIGN KEY (course_no) REFERENCES COURSES(course_no));
 
 CREATE TABLE MAJORS (
     major_id INTEGER,
