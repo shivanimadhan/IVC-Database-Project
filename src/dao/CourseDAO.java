@@ -39,31 +39,20 @@ public class CourseDAO {
     
 
     public String[] getCourseByEnrollCode(int enrollCode) throws SQLException {
-        String sql = """
-            SELECT o.course_no, o.enroll_code, o.year, o.quarter, o.location, o.time, o.capacity, o.professor, c.title
-            FROM OFFERINGS o
-            JOIN COURSES c ON o.course_no = c.course_no
-            WHERE o.enroll_code = ?
-            """;
+        String sql = "SELECT course_no, title FROM COURSES WHERE enroll_code = ?";
         try (var stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, enrollCode);
             var rs = stmt.executeQuery();
             if (rs.next()) {
                 return new String[] {
                     rs.getString("course_no"),
-                    Integer.toString(rs.getInt("enroll_code")),
-                    Integer.toString(rs.getInt("year")),
-                    rs.getString("quarter"),
-                    rs.getString("time"),
-                    rs.getString("location"),
-                    Integer.toString(rs.getInt("capacity")),
-                    rs.getString("professor"),
                     rs.getString("title")
                 };
             }
         }
         return null;
     }
+    
 
 
     public String getCourseInfo(String courseNo) throws SQLException {
@@ -71,16 +60,23 @@ public class CourseDAO {
         List<String[]> offerings = getCourseOfferings(courseNo);
         StringBuilder sb = new StringBuilder("Course: " + courseNo + " - " + title + "\n");
         for (String[] offer : offerings) {
-            sb.append("  ").append(offer).append("\n");
+            sb.append("  ").append(String.join(" ", offer)).append("\n");
         }
         return sb.toString();
     }
 
     public List<String[]> getCourseOfferings(String courseNo) throws SQLException {
         String sql = """
-            SELECT enroll_code, year, quarter, location, time, capacity, professor
+            SELECT year, quarter, professor
             FROM OFFERINGS
             WHERE course_no = ?
+            ORDER BY year DESC,
+                CASE quarter
+                    WHEN 'Fall' THEN 1
+                    WHEN 'Winter' THEN 2
+                    WHEN 'Spring' THEN 3
+                    ELSE 4
+                END
             """;
         List<String[]> offerings = new ArrayList<>();
         try (var stmt = conn.prepareStatement(sql)) {
@@ -88,12 +84,8 @@ public class CourseDAO {
             var rs = stmt.executeQuery();
             while (rs.next()) {
                 offerings.add(new String[] {
-                    Integer.toString(rs.getInt("enroll_code")),
                     Integer.toString(rs.getInt("year")),
                     rs.getString("quarter"),
-                    rs.getString("time"),
-                    rs.getString("location"),
-                    Integer.toString(rs.getInt("capacity")),
                     rs.getString("professor")
                 });
             }
