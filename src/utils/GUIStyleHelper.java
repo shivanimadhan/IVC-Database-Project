@@ -121,6 +121,27 @@ public class GUIStyleHelper {
         header.setPreferredSize(new Dimension(100, 40));
     }
 
+    public static void styleGradesTable(JTable table) {
+        // table.setFillsViewportHeight(true);
+        table.setRowHeight(130);
+        table.setFont(new Font("Serif", Font.BOLD, 24));
+        table.setForeground(new Color(20, 40, 80));
+        table.setBackground(Color.WHITE);
+        table.setGridColor(new Color(220, 220, 220)); // soft row separator
+        table.setShowGrid(true);
+        table.setIntercellSpacing(new Dimension(0, 20));
+        // table.setPreferredSize(new Dimension(Integer.MAX_VALUE, table.getRowHeight() * (table.getRowCount())));
+        table.setBorder(BorderFactory.createLineBorder(new Color(20, 40, 80), 2));
+        table.setShowVerticalLines(false);
+
+        // header styling
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(0xfcba03));
+        header.setForeground(new Color(20, 40, 80));
+        header.setFont(new Font("SansSerif", Font.BOLD, 18));
+        header.setPreferredSize(new Dimension(100, 40));
+    }
+
     public static void styleSmallButton(JButton button) {
         button.setPreferredSize(new Dimension(80, 30));
         button.setFont(new Font("Serif", Font.BOLD, 18));
