@@ -64,6 +64,20 @@ public class CourseButtonEditor extends DefaultCellEditor {
             if (result == JOptionPane.YES_OPTION) {
                 try {
                     PrerequisiteDAO prereqDAO = new PrerequisiteDAO(conn);
+                    TranscriptDAO transcriptDAO = new TranscriptDAO(conn);
+
+                    List<String[]> transcriptRecords = transcriptDAO.getAllTranscriptRecords(perm);
+                    for (String[] record : transcriptRecords) {
+                        if (record[2].equals(courseNo)) {
+                            JOptionPane.showMessageDialog(null,
+                                "This student has already taken this course in a past quarter.",
+                                "Enrollment Failed",
+                                JOptionPane.WARNING_MESSAGE);
+                            SwingUtilities.invokeLater(() -> table.clearSelection());
+                            clicked = false;
+                            return "Add";
+                        }
+                    }
 
                     if (!prereqDAO.hasCompletedPrerequisites(perm, courseNo)) {
                         JOptionPane.showMessageDialog(null,

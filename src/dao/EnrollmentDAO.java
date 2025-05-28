@@ -109,4 +109,24 @@ public class EnrollmentDAO {
 
         return result;
     }
+
+    public int getStudentCourseCount(String perm, int year, String quarter) throws SQLException {
+        String sql = """
+            SELECT COUNT(*) 
+            FROM TAKES T
+            JOIN OFFERINGS O ON T.course_no = O.course_no AND T.year = O.year AND T.quarter = O.quarter
+            WHERE T.perm = ? AND O.year = ? AND O.quarter = ?
+        """;
+        try (var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, perm);
+            stmt.setInt(2, year);
+            stmt.setString(3, quarter);
+            try (var rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        }
+        return 0;
+    }
 }

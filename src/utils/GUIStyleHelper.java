@@ -154,8 +154,6 @@ public class GUIStyleHelper {
         button.setForeground(new Color(20, 40, 80));
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createLineBorder(new Color(20, 40, 80)));
-        button.setContentAreaFilled(false);
-        button.setOpaque(true);
     }
 
     public static void stylePinButton(JButton button) {

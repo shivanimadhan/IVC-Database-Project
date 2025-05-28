@@ -114,6 +114,32 @@ public class CourseDAO {
         }
     }
 
+    public List<String> getEnrolledStudentNames(String courseNo, int year, String quarter) throws SQLException {
+        List<String> studentNames = new ArrayList<>();
+
+        String query = """
+            SELECT S.name
+            FROM TAKES T
+            JOIN OFFERINGS O ON T.course_no = O.course_no AND T.year = O.year AND T.quarter = O.quarter
+            JOIN STUDENTS S ON T.perm = S.perm
+            WHERE O.course_no = ? AND O.year = ? AND O.quarter = ?
+        """;
+
+        try (var stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, courseNo);
+            stmt.setInt(2, year);
+            stmt.setString(3, quarter);
+
+            try (var rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    studentNames.add(rs.getString("name"));
+                }
+            }
+        }
+
+        return studentNames;
+    }
+
     public int getCourseEnrollmentCount(String courseNo, int year, String quarter) throws SQLException {
         String sql = "SELECT COUNT(*) AS enrollment_count FROM TAKES " +
                     "WHERE course_no = ? AND year = ? AND quarter = ?";

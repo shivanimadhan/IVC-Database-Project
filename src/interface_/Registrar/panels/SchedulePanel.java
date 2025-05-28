@@ -639,9 +639,12 @@ public class SchedulePanel extends JPanel {
             table.getColumn("Roster").setMaxWidth(125);
             table.getColumn("Roster").setMinWidth(125);
 
+            table.getColumn("Add").setCellEditor(new AddButtonEditor(new JCheckBox(), offeredCourses, courseDAO, table, conn));
+            table.getColumn("Drop").setCellEditor(new DropButtonEditor(new JCheckBox(), offeredCourses, table, conn));
+            table.getColumn("Roster").setCellEditor(new RosterButtonEditor(new JCheckBox(), offeredCourses, courseDAO, table, conn));
+
             JScrollPane scrollPane = new JScrollPane(table);
             scrollPane.setPreferredSize(new Dimension(1100, table.getRowHeight() * table.getRowCount()));
-            // scrollPane.setMaximumSize(new Dimension(1100, 400));
             scrollPane.setOpaque(false);
             scrollPane.getViewport().setOpaque(false);
             scrollPane.setBorder(BorderFactory.createEmptyBorder());

@@ -79,7 +79,7 @@ public class TranscriptDAO {
     }
 
 
-    public List<String> getAllTranscriptRecords(String perm) throws SQLException {
+    public List<String[]> getAllTranscriptRecords(String perm) throws SQLException {
         String sql = """
             SELECT T.quarter, T.year, C.course_no, C.title, T.grade
             FROM TOOK T
@@ -94,7 +94,7 @@ public class TranscriptDAO {
                 END
             """;
 
-        List<String> transcript = new ArrayList<>();
+        List<String[]> transcript = new ArrayList<>();
         try (var stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, perm);
             var rs = stmt.executeQuery();
@@ -105,8 +105,15 @@ public class TranscriptDAO {
                 String title = rs.getString("title");
                 String grade = rs.getString("grade");
 
-                transcript.add(quarter + " " + year + " - " + courseNo + " - " + title + ": " + grade);
+                String[] course = new String[] {
+                        quarter,
+                        Integer.toString(year),
+                        courseNo,
+                        title,
+                        grade
+                    };
 
+                transcript.add(course);
             }
         }
 
