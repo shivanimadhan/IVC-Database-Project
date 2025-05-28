@@ -36,52 +36,63 @@ public class TranscriptDAO {
         return new Quarter("Unknown", -1);
     }
 
-    public Quarter getPreviousQuarter(String perm) throws SQLException {
-        Quarter curr = getCurrentQuarter(perm);
-        Quarter prev = Quarter.previous(curr.getQuarterName(), curr.getYear());
-        return prev;
-    }
+    public List<String[]> getGradesForQuarter(String perm, int year, String quarter) throws SQLException {
+        String sql = """
+            SELECT C.course_no, C.title, T.grade
+            FROM TOOK T
+            JOIN COURSES C ON T.course_no = C.course_no
+            WHERE T.perm = ? AND T.year = ? AND T.quarter = ?
+            """;
 
-    public List<String> getPreviousQuarterGrades(String perm) throws SQLException {
-        Quarter prev = getPreviousQuarter(perm);
-
-        String sql = "SELECT C.course_no, C.title, T.grade " +
-                     "FROM TOOK T " +
-                     "JOIN OFFERINGS O ON T.course_no = O.course_no AND T.year = O.year AND T.quarter = O.quarter " +
-                     "JOIN COURSES C ON O.course_no = C.course_no " +
-                     "WHERE T.perm = ? AND O.quarter = ? AND O.year = ?";
-
-        List<String> grades = new ArrayList<>();
+        List<String[]> grades = new ArrayList<>();
         try (var stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, perm);
-            stmt.setString(2, prev.getQuarterName());
-            stmt.setInt(3, prev.getYear());
+            stmt.setInt(2, year);
+            stmt.setString(3, quarter);
             var rs = stmt.executeQuery();
 
             while (rs.next()) {
-                String course = rs.getString("course_no");
-                String title = rs.getString("title");
-                String grade = rs.getString("grade");
-                grades.add(course + " - " + title + ": " + grade);
+                grades.add(new String[]{
+                    rs.getString("course_no"),
+                    rs.getString("title"),
+                    rs.getString("grade")
+                });
             }
         }
-
         return grades;
     }
 
+
+    public List<Quarter> getAllQuartersTaken(String perm) throws SQLException {
+        String sql = "SELECT DISTINCT quarter, year FROM TOOK WHERE perm = ? ORDER BY year DESC, " +
+                    "CASE quarter WHEN 'Fall' THEN 1 WHEN 'Winter' THEN 2 WHEN 'Spring' THEN 3 ELSE 4 END";
+
+        List<Quarter> quarters = new ArrayList<>();
+        try (var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, perm);
+            var rs = stmt.executeQuery();
+            while (rs.next()) {
+                quarters.add(new Quarter(rs.getString("quarter"), rs.getInt("year")));
+            }
+        }
+        return quarters;
+    }
+
+
     public List<String> getAllTranscriptRecords(String perm) throws SQLException {
-        String sql = "SELECT O.quarter, O.year, C.course_no, C.title, T.grade " +
-                     "FROM TOOK T " +
-                     "JOIN OFFERINGS O ON T.course_no = O.course_no AND T.year = O.year AND T.quarter = O.quarter " +
-                     "JOIN COURSES C ON O.course_no = C.course_no " +
-                     "WHERE T.perm = ? " +
-                     "ORDER BY O.year, " +
-                            "CASE " + 
-                                    "WHEN O.quarter = 'Winter' THEN 1 " +
-                                    "WHEN O.quarter = 'Spring' THEN 2 " +
-                                    "WHEN O.quarter = 'Fall' THEN 3 " +
-                                    "ELSE 4 " +
-                            "END";
+        String sql = """
+            SELECT T.quarter, T.year, C.course_no, C.title, T.grade
+            FROM TOOK T
+            JOIN COURSES C ON T.course_no = C.course_no
+            WHERE T.perm = ?
+            ORDER BY T.year,
+                CASE T.quarter
+                    WHEN 'Fall' THEN 1
+                    WHEN 'Winter' THEN 2
+                    WHEN 'Spring' THEN 3
+                    ELSE 4
+                END
+            """;
 
         List<String> transcript = new ArrayList<>();
         try (var stmt = conn.prepareStatement(sql)) {
@@ -94,8 +105,8 @@ public class TranscriptDAO {
                 String title = rs.getString("title");
                 String grade = rs.getString("grade");
 
-                String record = quarter + " " + year + " - " + courseNo + " - " + title + ": " + grade;
-                transcript.add(record);
+                transcript.add(quarter + " " + year + " - " + courseNo + " - " + title + ": " + grade);
+
             }
         }
 
