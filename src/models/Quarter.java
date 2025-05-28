@@ -23,6 +23,11 @@ public class Quarter
         return (year == -1) ? 25 : year;
     }
 
+    public String getQuarterCode() {
+        return name;
+    }
+
+
     public String getQuarterName() {
         return switch (name) {
             case "S" -> "Spring";
@@ -30,5 +35,10 @@ public class Quarter
             case "W" -> "Winter";
             default -> "Spring";
         };
+    }
+
+    @Override
+    public String toString() {
+        return getQuarterName() + " " + year;
     }
 }
