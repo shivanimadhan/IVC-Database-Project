@@ -63,18 +63,29 @@ public class CourseButtonEditor extends DefaultCellEditor {
 
             if (result == JOptionPane.YES_OPTION) {
                 try {
-                    if (dao.getCourseEnrollmentCount(courseNo, year, quarter) >= dao.getCourseCapacity(courseNo, year, quarter)) {
+                    PrerequisiteDAO prereqDAO = new PrerequisiteDAO(conn);
+
+                    if (!prereqDAO.hasCompletedPrerequisites(perm, courseNo)) {
+                        JOptionPane.showMessageDialog(null,
+                                "You have not completed the prerequisites for this course.",
+                                "Enrollment Failed",
+                                JOptionPane.WARNING_MESSAGE);
+                        SwingUtilities.invokeLater(() -> table.clearSelection());
+
+                    } else if (dao.getCourseEnrollmentCount(courseNo, year, quarter) >= dao.getCourseCapacity(courseNo, year, quarter)) {
                         JOptionPane.showMessageDialog(null,
                                 "This course is full and cannot accept more students.",
                                 "Enrollment Failed",
                                 JOptionPane.WARNING_MESSAGE);
                         SwingUtilities.invokeLater(() -> table.clearSelection());
+
                     } else if (dao.getStudentCourseCount(perm, year, quarter) >= 5) {
                         JOptionPane.showMessageDialog(null,
                                 "You cannot enroll in more than 5 courses per quarter.",
                                 "Enrollment Failed",
                                 JOptionPane.WARNING_MESSAGE);
                         SwingUtilities.invokeLater(() -> table.clearSelection());
+
                     } else {
                         EnrollmentDAO enrollmentDAO = new EnrollmentDAO(conn);
                         enrollmentDAO.addCourse(perm, courseNo, year, quarter);
@@ -88,12 +99,11 @@ public class CourseButtonEditor extends DefaultCellEditor {
                     SwingUtilities.invokeLater(() -> table.clearSelection());
                 }
             } else {
-                // clicked "No"
                 SwingUtilities.invokeLater(() -> table.clearSelection());
             }
-        }
 
-        clicked = false;
+            clicked = false;
+        }
         return "Add";
     }
 

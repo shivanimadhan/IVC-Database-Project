@@ -26,6 +26,7 @@ public class PrerequisiteDAO {
     }
 
     public boolean hasCompletedPrerequisites(String perm, String courseNo) throws SQLException {
+        // Step 1: Get all prerequisite course codes
         String sql = "SELECT prereq_course FROM PREREQS WHERE course = ?";
         List<String> prereqs = new ArrayList<>();
         try (var stmt = conn.prepareStatement(sql)) {
@@ -35,27 +36,33 @@ public class PrerequisiteDAO {
                 prereqs.add(rs.getString("prereq_course"));
             }
         }
+
+        // No prerequisites → auto-pass
         if (prereqs.isEmpty()) {
-            return true; // No prerequisites, so automatically satisfied
+            return true;
         }
+
+        // Step 2: For each prerequisite, check if the student passed it
         String sqlCheck = """
             SELECT 1
-            FROM TOOK K
-            JOIN OFFERING O ON T.enroll_code = O.enroll_code
+            FROM TOOK T
+            JOIN OFFERINGS O ON T.course_no = O.course_no AND T.year = O.year AND T.quarter = O.quarter
             WHERE T.perm = ? AND O.course_no = ? AND
                 T.grade IN ('A+', 'A', 'B+', 'B', 'C+', 'C')
             """;
-        try (var stmt = conn.prepareStatement(sqlCheck)) {
-            for (String prereq : prereqs){
+
+        for (String prereq : prereqs) {
+            try (var stmt = conn.prepareStatement(sqlCheck)) {
                 stmt.setString(1, perm);
                 stmt.setString(2, prereq);
                 try (var rs = stmt.executeQuery()) {
                     if (!rs.next()) {
-                        return false;
+                        return false; // prerequisite not completed
                     }
                 }
             }
         }
-        return true;
+
+        return true; // all prerequisites satisfied
     }
 }
