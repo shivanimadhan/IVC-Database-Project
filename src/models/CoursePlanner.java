@@ -1,13 +1,12 @@
 package models;
 
+import dao.CourseDAO;
+import dao.MajorDAO;
+import dao.StudiesDAO;
+import dao.TranscriptDAO;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.*;
-
-import dao.CourseDAO;
-import dao.StudiesDAO;
-import dao.TranscriptDAO;
-import dao.MajorDAO;
 
 public class CoursePlanner {
     private final Connection conn;
@@ -51,7 +50,7 @@ public class CoursePlanner {
         }
     
         String[] quarters = {"Fall 2025", "Winter 2026", "Spring 2026"};
-        int maxPerQuarter = 3;
+        int maxPerQuarter = 4;
     
         for (String quarterLabel : quarters) {
             String quarterCode = quarterLabel.contains("Fall") ? "F" :

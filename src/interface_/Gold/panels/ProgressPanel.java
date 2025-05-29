@@ -111,12 +111,13 @@ public class ProgressPanel extends JPanel {
 
         // Electives
         electivesLabel = new JLabel("Electives Left: ");
-        electivesLabel.setFont(new Font("Serif", Font.BOLD, 25));
+        electivesLabel.setFont(new Font("Serif", Font.BOLD, 20));
         electivesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(electivesLabel);
 
         // Add Plan button
-        JButton planButton = new JButton("Make a Plan");
+        JButton planButton = new JButton("Make Course Plan");
+        GUIStyleHelper.stylePinButton(planButton);
         planButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(planButton);
 
