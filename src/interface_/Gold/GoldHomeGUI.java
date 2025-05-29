@@ -12,7 +12,7 @@ public class GoldHomeGUI extends JFrame {
     private final String perm;
     private final Connection conn;
     private JPanel contentPanel;
-    private final Map<String, JPanel> pages = new HashMap<>();
+    private final Map<String, Component> pages = new HashMap<>();
 
     public GoldHomeGUI(String perm, Connection conn) {
         this.conn = conn;
@@ -81,7 +81,7 @@ public class GoldHomeGUI extends JFrame {
         pages.put("schedule", new SchedulePanel(perm, conn));
         pages.put("register", new RegisterPanel(perm, conn));
         pages.put("grades", new GradesPanel(perm, conn));
-        pages.put("progress", new ProgressPanel(perm, conn));
+        pages.put("progress", new JScrollPane(new ProgressPanel(perm, conn)));
         pages.put("settings", new SettingsPanel(perm, conn));
 
         contentPanel.add(pages.get("schedule")); // default page

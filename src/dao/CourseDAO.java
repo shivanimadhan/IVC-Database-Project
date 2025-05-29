@@ -171,11 +171,11 @@ public class CourseDAO {
             SELECT year, quarter, professor
             FROM OFFERINGS
             WHERE course_no = ?
-            ORDER BY year DESC,
+            ORDER BY year ASC,
                 CASE quarter
-                    WHEN 'Fall' THEN 1
-                    WHEN 'Winter' THEN 2
-                    WHEN 'Spring' THEN 3
+                    WHEN 'F' THEN 1
+                    WHEN 'W' THEN 2
+                    WHEN 'S' THEN 3
                     ELSE 4
                 END
             """;

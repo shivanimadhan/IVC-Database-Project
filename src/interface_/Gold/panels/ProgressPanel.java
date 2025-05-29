@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import models.CoursePlanner;
 import utils.GUIStyleHelper;
 
 public class ProgressPanel extends JPanel {
@@ -19,6 +20,12 @@ public class ProgressPanel extends JPanel {
     private final JTable completedTable;
     private final JTable remainingTable;
 
+    private final DefaultTableModel planModel;
+    private final JTable planTable;
+    private final JPanel planWrapper;
+    
+    private final Connection conn;
+
     private final StudiesDAO studiesDAO;
     private final TranscriptDAO transcriptDAO;
     private final CourseCategoryDAO categoryDAO;
@@ -26,6 +33,7 @@ public class ProgressPanel extends JPanel {
     private final CourseDAO courseDAO;
 
     public ProgressPanel(String perm, Connection conn) {
+        this.conn = conn;
         this.studiesDAO = new StudiesDAO(conn);
         this.transcriptDAO = new TranscriptDAO(conn);
         this.categoryDAO = new CourseCategoryDAO(conn);
@@ -107,6 +115,38 @@ public class ProgressPanel extends JPanel {
         electivesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(electivesLabel);
 
+        // Add Plan button
+        JButton planButton = new JButton("Make a Plan");
+        planButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        add(planButton);
+
+        // Initialize plan table model and table
+        planModel = new DefaultTableModel(new String[]{"Course No", "Title", "Type", "Quarter"}, 0) {
+            @Override public boolean isCellEditable(int row, int column) { return false; }
+            @Override public int getRowCount() { return super.getRowCount() > 0 ? super.getRowCount() : 0; }
+        };
+
+        planTable = new JTable(planModel);
+        GUIStyleHelper.styleTable(planTable);
+        centerTableText(planTable);
+        JScrollPane planScroll = new JScrollPane(planTable);
+        planTable.getTableHeader().setReorderingAllowed(false);
+
+        planWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        planWrapper.setOpaque(false);
+        planWrapper.add(planScroll);
+        planWrapper.setVisible(false);
+        add(planWrapper);
+
+        // Action to load and show the plan
+        planButton.addActionListener(e -> {
+            loadPlan(perm);
+            planWrapper.setVisible(true);
+            planWrapper.revalidate();
+            planWrapper.repaint();
+        });
+
+
         loadProgress(perm); // Initial load
     }
 
@@ -149,6 +189,7 @@ public class ProgressPanel extends JPanel {
 
             adjustTableHeight(completedTable);
             adjustTableHeight(remainingTable);
+            adjustTableHeight(planTable);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -160,12 +201,30 @@ public class ProgressPanel extends JPanel {
         int rowCount = table.getRowCount();
         int totalHeight = rowHeight * rowCount;
 
-        table.setPreferredScrollableViewportSize(new Dimension(800, totalHeight));
+        table.setPreferredScrollableViewportSize(new Dimension(900, totalHeight));
         table.revalidate();
         table.repaint();
         if (table.getParent() != null) {
             table.getParent().revalidate();  // JScrollPane viewport
             table.getParent().repaint();
+        }
+    }
+    
+    private void loadPlan(String perm) {
+        try {
+            planModel.setRowCount(0);
+            CoursePlanner planner = new CoursePlanner(conn);
+            List<String[]> plan = planner.generatePlan(perm);
+
+            for (String[] row : plan) {
+                planModel.addRow(row);
+            }
+
+            adjustTableHeight(planTable);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Failed to generate course plan.");
         }
     }
 }
