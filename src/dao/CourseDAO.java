@@ -193,4 +193,26 @@ public class CourseDAO {
         }
         return offerings;
     }
+    
+    public String[] getOfferingInfoByEnrollCode(int enrollCode) throws SQLException {
+        String sql = """
+            SELECT C.course_no, O.year, O.quarter
+            FROM COURSES C
+            JOIN OFFERINGS O ON C.course_no = O.course_no
+            WHERE C.enroll_code = ?
+        """;
+        try (var stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, enrollCode);
+            var rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new String[] {
+                    rs.getString("course_no"),
+                    String.valueOf(rs.getInt("year")),
+                    rs.getString("quarter")
+                };
+            }
+        }
+        return null; // if no match
+    }
+    
 }
