@@ -33,6 +33,7 @@ public class Quarter
             case "S", "Spring" -> "Spring";
             case "F", "Fall" -> "Fall";
             case "W", "Winter" -> "Winter";
+            case "Unknown" -> "Spring";
             default -> name;
         };
     }
