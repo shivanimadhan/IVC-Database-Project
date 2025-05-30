@@ -58,6 +58,7 @@ public class GradesPanel extends JPanel {
                 return column == 1;
             }
         };
+        gradesModel.addRow(new Object[]{"", ""});
 
         gradesTable = new JTable(gradesModel);
         GUIStyleHelper.styleGradesTable(gradesTable);
