@@ -1,12 +1,11 @@
 package interface_.Registrar;
 
+import interface_.Registrar.panels.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.util.*;
 import javax.swing.*;
 import utils.*;
-import interface_.Registrar.panels.*;
 
 public class RegistrarHomeGUI extends JFrame {
     private final Connection conn;
@@ -57,9 +56,9 @@ public class RegistrarHomeGUI extends JFrame {
         headerPanel.add(logoutWrapper, BorderLayout.EAST);
 
         // NAVIGATION
-        JPanel navPanel = new JPanel(new GridLayout(1, 3));
-        String[] tabNames = { "Modify Schedule", "Enter Grades", "Generate Transcript"};
-        String[] tabKeys  = { "schedule", "grades", "transcript"};
+        JPanel navPanel = new JPanel(new GridLayout(1, 4));
+        String[] tabNames = { "Modify Schedule", "Enter Grades", "Generate Transcript", "Grade Mailers" };
+        String[] tabKeys  = { "schedule", "grades", "transcript", "email" };
 
         for (int i = 0; i < tabNames.length; i++) {
             String name = tabNames[i];
@@ -82,6 +81,7 @@ public class RegistrarHomeGUI extends JFrame {
         pages.put("schedule", new SchedulePanel(conn));
         pages.put("grades", new GradesPanel(conn));
         pages.put("transcript", new TranscriptPanel(conn));
+        pages.put("email", new EmailGeneratorPanel(conn));
 
         contentPanel.add(pages.get("schedule")); // default
 
