@@ -30,10 +30,10 @@ public class Quarter
 
     public String getQuarterName() {
         return switch (name) {
-            case "S" -> "Spring";
-            case "F" -> "Fall";
-            case "W" -> "Winter";
-            default -> "Spring";
+            case "S", "Spring" -> "Spring";
+            case "F", "Fall" -> "Fall";
+            case "W", "Winter" -> "Winter";
+            default -> name;
         };
     }
 

@@ -57,8 +57,8 @@ public class RegistrarHomeGUI extends JFrame {
 
         // NAVIGATION
         JPanel navPanel = new JPanel(new GridLayout(1, 4));
-        String[] tabNames = { "Modify Schedule", "Enter Grades", "Generate Transcript", "Grade Mailers" };
-        String[] tabKeys  = { "schedule", "grades", "transcript", "email" };
+        String[] tabNames = { "Modify Schedule", "Enter Grades", "View Grades","Generate Transcript", "Grade Mailers" };
+        String[] tabKeys  = { "schedule", "grades", "viewgrades","transcript", "email" };
 
         for (int i = 0; i < tabNames.length; i++) {
             String name = tabNames[i];
@@ -80,6 +80,7 @@ public class RegistrarHomeGUI extends JFrame {
         contentPanel = new JPanel(new BorderLayout());
         pages.put("schedule", new SchedulePanel(conn));
         pages.put("grades", new GradesPanel(conn));
+        pages.put("viewgrades", new ViewGradesPanel(conn));
         pages.put("transcript", new TranscriptPanel(conn));
         pages.put("email", new EmailGeneratorPanel(conn));
 
