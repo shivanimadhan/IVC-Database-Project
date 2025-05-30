@@ -6,7 +6,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import utils.GUIStyleHelper;
 
 public class GradesPanel extends JPanel {
@@ -29,25 +31,24 @@ public class GradesPanel extends JPanel {
         add(title);
 
         JPanel formPanel = new JPanel(new FlowLayout());
+        formPanel.setOpaque(false);
         formPanel.add(new JLabel("Enroll Code:"));
         enrollCodeField = new JTextField(8);
         formPanel.add(enrollCodeField);
-        formPanel.setOpaque(false);
-
 
         String[] years = {"24", "25"};
         String[] quarters = {"F", "W", "S"};
         yearDropdown = new JComboBox<>(years);
         quarterDropdown = new JComboBox<>(quarters);
-
         formPanel.add(new JLabel("Year:"));
         formPanel.add(yearDropdown);
         formPanel.add(new JLabel("Quarter:"));
         formPanel.add(quarterDropdown);
+
         add(Box.createVerticalStrut(10));
         add(formPanel);
 
-        JLabel instructions = new JLabel("Click 'Load Students' to view enrolled students. Enter their grades below:");
+        JLabel instructions = new JLabel("Click 'Load' to view enrolled students. Enter their grades below:");
         instructions.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(instructions);
 
@@ -57,17 +58,42 @@ public class GradesPanel extends JPanel {
                 return column == 1;
             }
         };
-        gradesTable = new JTable(gradesModel);
-        JScrollPane tableScroll = new JScrollPane(gradesTable);
-        tableScroll.setPreferredSize(new Dimension(500, 250));
-        add(tableScroll);
 
-        JPanel buttonPanel = new JPanel();
-        JButton loadButton = new JButton("Load Students");
-        JButton submitButton = new JButton("Submit Grades");
+        gradesTable = new JTable(gradesModel);
+        GUIStyleHelper.styleGradesTable(gradesTable);
+        gradesTable.setRowHeight(50);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        for (int i = 0; i < gradesTable.getColumnCount(); i++) {
+            gradesTable.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
+        JTableHeader header = gradesTable.getTableHeader();
+        DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) header.getDefaultRenderer();
+        headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JScrollPane tableScroll = new JScrollPane(gradesTable);
+        tableScroll.setBorder(BorderFactory.createEmptyBorder());
+        tableScroll.setOpaque(false);
+        tableScroll.getViewport().setOpaque(false);
+
+        JPanel tableWrapper = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        tableWrapper.setOpaque(false);
+        tableWrapper.add(tableScroll);
+
+        add(Box.createRigidArea(new Dimension(0, 10)));
+        add(tableWrapper);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.setOpaque(false);
+        JButton loadButton = new JButton("Load");
+        JButton submitButton = new JButton("Submit");
+        GUIStyleHelper.stylePinButton(loadButton);
+        GUIStyleHelper.stylePinButton(submitButton);
         buttonPanel.add(loadButton);
         buttonPanel.add(submitButton);
-        buttonPanel.setOpaque(false);
+
         add(Box.createVerticalStrut(10));
         add(buttonPanel);
 
@@ -108,7 +134,6 @@ public class GradesPanel extends JPanel {
 
             while (rs.next()) {
                 String perm = rs.getString("perm");
-
                 PreparedStatement gradeStmt = conn.prepareStatement("""
                     SELECT grade FROM TOOK
                     WHERE perm = ? AND course_no = ? AND year = ? AND quarter = ?
@@ -127,9 +152,12 @@ public class GradesPanel extends JPanel {
                 gradesModel.addRow(new Object[]{perm, grade});
             }
 
-            if (gradesModel.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(this, "No students found for that course offering.");
-            }
+            int rowHeight = gradesTable.getRowHeight();
+            int rowCount = gradesTable.getRowCount();
+            int totalHeight = rowHeight * rowCount + 26;
+            gradesTable.setPreferredScrollableViewportSize(new Dimension(1200, Math.min(totalHeight, 600)));
+            gradesTable.revalidate();
+            gradesTable.repaint();
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -169,10 +197,8 @@ public class GradesPanel extends JPanel {
             for (int i = 0; i < gradesModel.getRowCount(); i++) {
                 String perm = gradesModel.getValueAt(i, 0).toString().trim();
                 String grade = gradesModel.getValueAt(i, 1).toString().trim();
-
                 if (perm.isEmpty() || grade.isEmpty()) continue;
 
-                // Try UPDATE
                 updateStmt.setString(1, grade);
                 updateStmt.setString(2, perm);
                 updateStmt.setString(3, courseNo);
@@ -180,19 +206,16 @@ public class GradesPanel extends JPanel {
                 updateStmt.setString(5, quarter);
                 int rowsUpdated = updateStmt.executeUpdate();
 
-                if (rowsUpdated > 0) {
-                    System.out.println("Updated grade for " + perm + " to " + grade);
-                } else {
+                if (rowsUpdated == 0) {
                     insertStmt.setString(1, perm);
                     insertStmt.setString(2, courseNo);
                     insertStmt.setInt(3, year);
                     insertStmt.setString(4, quarter);
                     insertStmt.setString(5, grade);
                     insertStmt.executeUpdate();
-                    System.out.println("Inserted new grade for " + perm + ": " + grade);
                 }
             }
-            
+
             JOptionPane.showMessageDialog(this, "Grades submitted successfully for " + courseNo + " (" + quarter + " " + year + ")");
         } catch (Exception ex) {
             ex.printStackTrace();
