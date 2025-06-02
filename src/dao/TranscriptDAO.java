@@ -33,7 +33,7 @@ public class TranscriptDAO {
             }
         }
 
-        return new Quarter("Unknown", -1);
+        return new Quarter("S", 25);
     }
 
     public List<String[]> getGradesForQuarter(String perm, int year, String quarter) throws SQLException {
